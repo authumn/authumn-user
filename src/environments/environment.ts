@@ -1,10 +1,10 @@
-const whitelist = [
+let whitelist = [
   'http://localhost:4200',
   'http://authumn'
 ]
 
 if (process.env.WHITELIST) {
-  process.env.WHITELIST.split(',')
+  whitelist = process.env.WHITELIST.split(',')
     .map((str) => str.trim())
 }
 
