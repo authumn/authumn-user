@@ -8,10 +8,10 @@ ENV WHITELIST http://localhost,http://test.com
 # For node bcrypt
 RUN apk --no-cache add --virtual builds-deps build-base python
 
+ADD . /app
+
 WORKDIR /app
-COPY package.json yarn.lock ./
 RUN yarn install --production
-COPY . .
 
 EXPOSE 2302
 
