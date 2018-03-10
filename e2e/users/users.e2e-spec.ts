@@ -29,7 +29,7 @@ describe('UserService', () => {
       .post('/user/register')
       .send({
         email: 'test@test.com',
-        password: '123'
+        password: '123456'
       })
       .expect(201)
       .expect('Content-Type', /json/)

@@ -3,6 +3,7 @@ import { UserController } from './user.controller'
 import { UserService } from './user.service'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import { databaseProviders } from '../../database/database.providers'
+import { ValidatorService } from '../../shared/validator/validator.service'
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { databaseProviders } from '../../database/database.providers'
   components: [
     ...databaseProviders,
     UserService,
+    ValidatorService,
     MongoDbAdapter
   ]
 

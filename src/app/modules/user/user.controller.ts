@@ -9,15 +9,14 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service'
 import { User } from './models'
-
-import { getValidator } from '../../common/validator/getValidator'
-
-const validateLogin = getValidator('login')
-const validateRegister = getValidator('registration')
+import { ValidatorService } from '../../shared/validator/validator.service'
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly validatorService: ValidatorService
+  ) {}
 
   /**
    * Authenticates a user using the userService.
@@ -30,15 +29,9 @@ export class UserController {
   @Bind(Body())
   async loginUser(user: User) {
     // should do the error handler generic.
-    await validateLogin(user)
+    await this.validatorService.validate('login', user)
 
     const { email, password } = user
-
-    /*
-    if (!email || !password) {
-      return new Error('email or password missing')
-    }
-    */
 
     const result = await this.userService.authenticate(email, password)
 
@@ -57,7 +50,7 @@ export class UserController {
   @Post('/register')
   @Bind(Body())
   async registerUser(user: User) {
-    await validateLogin(user)
+    await this.validatorService.validate('registration', user)
 
     const { email, password } = user
 
