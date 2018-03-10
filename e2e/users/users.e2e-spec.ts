@@ -4,6 +4,8 @@ import { Test } from '@nestjs/testing'
 import { UserModule } from '../../src/app/modules/user'
 import { UserService } from '../../src/app/modules/user/user.service'
 import { INestApplication } from '@nestjs/common'
+import { HttpExceptionFilter } from '../../src/app/shared/filters/HttpExceptionFilter'
+import { MongoDbAdapter } from '../../src/app/modules/user/adapter/mongo.adapter'
 
 describe('UserService', () => {
   let server
@@ -13,7 +15,7 @@ describe('UserService', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [UserModule],
+      imports: [UserModule]
     })
 //      .overrideComponent(UserService)
 //      .useValue(userService)
@@ -21,7 +23,12 @@ describe('UserService', () => {
 
     server = express()
     app = module.createNestApplication(server)
+    app.useGlobalFilters(new HttpExceptionFilter())
     await app.init()
+    app
+      .select(UserModule)
+      .get(MongoDbAdapter)
+      .flush()
   })
 
   it(`/POST register`, () => {
@@ -36,6 +43,16 @@ describe('UserService', () => {
       .then(response => {
         expect(response.body.email).toBe('test@test.com')
       })
+  })
+
+  it(`/POST register cannot register twice`, () => {
+    return request(server)
+      .post('/user/register')
+      .send({
+        email: 'test@test.com',
+        password: '123456'
+      })
+      .expect(400)
   })
 
   afterAll(async () => {

@@ -13,7 +13,7 @@ export const environment = {
   port: process.env.PORT || 2302,
   saltRounds: parseInt(process.env.SALT_ROUNDS, 10) || 10,
   mongo: {
-    url: process.env.MONGO_URL || 'mongodb://localhost/specsh'
+    url: process.env.MONGO_URL || 'mongodb://localhost/authumn-user'
   },
   whitelist
 }

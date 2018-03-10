@@ -28,7 +28,6 @@ export class UserController {
   @Post('/login')
   @Bind(Body())
   async loginUser(user: User) {
-    // should do the error handler generic.
     await this.validatorService.validate('login', user)
 
     const { email, password } = user
@@ -51,6 +50,8 @@ export class UserController {
   @Bind(Body())
   async registerUser(user: User) {
     await this.validatorService.validate('registration', user)
+
+    console.log('validated?')
 
     const { email, password } = user
 

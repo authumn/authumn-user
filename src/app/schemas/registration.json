@@ -3,7 +3,27 @@
   "$async": true,
   "title": "User Registration",
   "allOf": [
-    { "$ref": "./login.json#" },
+    {
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "unique": {
+            "collection": "users",
+            "field": "email"
+          }
+        },
+        "password": {
+          "type": "string",
+          "minLength": 6,
+          "maxLength": 255
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
     {
       "properties": {
         "firstName": {

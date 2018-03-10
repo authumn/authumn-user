@@ -15,22 +15,22 @@ export class ValidatorService {
     @Inject('MongoDbConnectionToken') private readonly mongo
   ) {
     this.schemas = loadSchemas(schemaDir)
+    const a = new Ajv({})
 
-    const ajv = setupAsync(new Ajv({
-      schemas: this.schemas
-    }))
-
-    ajv.addKeyword(
-      'idExists',
+    a.addKeyword(
+      'unique',
       {
         async: true,
-        type: 'number',
-        validate: this.idExists.bind(this)
+        type: 'string',
+        validate: this.unique.bind(this)
       }
     )
 
+    const ajv = setupAsync(a)
+
+
     this.schemas.forEach((schema) => {
-      this.validators[schema.$id] = ajv.getSchema(schema.$id)
+      this.validators[schema.$id] = ajv.compile(schema)
     })
   }
 
@@ -38,10 +38,10 @@ export class ValidatorService {
     return this.validators[`${schema}.json`](data)
   }
 
-  private async idExists(schema: boolean, data) {
+  private async unique(schema, data) {
+    const collection = await this.mongo.collection(schema.collection)
+    const result = await collection.findOne({ [schema.field]: data })
 
-  }
-
-  private getValidator(schemaName) {
+    return !Boolean(result)
   }
 }

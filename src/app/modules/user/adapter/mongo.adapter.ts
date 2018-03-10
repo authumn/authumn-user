@@ -1,6 +1,7 @@
 import { IUserDbAdapter } from './IUserDbAdapter'
 import { Component, Inject } from '@nestjs/common'
 import { User } from '../models'
+import { WriteOpResult } from 'mongodb'
 
 @Component()
 export class MongoDbAdapter implements IUserDbAdapter {
@@ -47,7 +48,6 @@ export class MongoDbAdapter implements IUserDbAdapter {
   async update({_id, email, password}: User): Promise<User> {
     const user = await this.findById(_id)
 
-    console.log('updating', user)
     const collection = await this.mongo.collection('users')
 
     const result = await collection.update({ _id }, {
@@ -63,5 +63,11 @@ export class MongoDbAdapter implements IUserDbAdapter {
 
   async findAll(): Promise<User[]>  {
     return this.find({})
+  }
+
+  async flush(): Promise<WriteOpResult>  {
+    return this.mongo
+      .collection('users')
+      .remove({})
   }
 }
