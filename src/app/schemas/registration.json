@@ -1,0 +1,27 @@
+{
+  "$id": "registration.json",
+  "$async": true,
+  "title": "User Registration",
+  "allOf": [
+    { "$ref": "./login.json#" },
+    {
+      "properties": {
+        "firstName": {
+          "title": "First Name",
+          "type": "string"
+        },
+        "lastName": {
+          "title": "Last Name",
+          "type": "string"
+        },
+        "newsletter": {
+          "title": "Newsletter",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "newsletter"
+      ]
+    }
+  ]
+}

@@ -10,6 +10,11 @@ import {
 import { UserService } from './user.service'
 import { User } from './models'
 
+import { getValidator } from '../../common/validator/getValidator'
+
+const validateLogin = getValidator('login')
+const validateRegister = getValidator('registration')
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -24,21 +29,22 @@ export class UserController {
   @Post('/login')
   @Bind(Body())
   async loginUser(user: User) {
-    if (user) {
-      const { email, password } = user
+    // should do the error handler generic.
+    await validateLogin(user)
 
-      if (!email || !password) {
-        return new Error('email or password missing')
-      }
+    const { email, password } = user
 
-      const result = await this.userService.authenticate(email, password)
-
-      console.log('loginUser:', result, email, password)
-
-      return result
-    } else {
-      throw Error('User empty')
+    /*
+    if (!email || !password) {
+      return new Error('email or password missing')
     }
+    */
+
+    const result = await this.userService.authenticate(email, password)
+
+    console.log('loginUser:', result, email, password)
+
+    return result
   }
 
   /**
@@ -51,11 +57,9 @@ export class UserController {
   @Post('/register')
   @Bind(Body())
   async registerUser(user: User) {
-    const { email, password } = user
+    await validateLogin(user)
 
-    if (!email || !password) {
-      return new Error('email or password missing')
-    }
+    const { email, password } = user
 
     return this.userService.register(email, password)
   }

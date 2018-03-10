@@ -15,8 +15,8 @@ describe('UserService', () => {
     const module = await Test.createTestingModule({
       imports: [UserModule],
     })
-      .overrideComponent(UserService)
-      .useValue(userService)
+//      .overrideComponent(UserService)
+//      .useValue(userService)
       .compile()
 
     server = express()
@@ -24,12 +24,17 @@ describe('UserService', () => {
     await app.init()
   })
 
-  it(`/GET user`, () => {
+  it(`/POST register`, () => {
     return request(server)
-      .get('/user')
-      .expect(200)
-      .expect({
-        data: userService.findAll(),
+      .post('/user/register')
+      .send({
+        email: 'test@test.com',
+        password: '123'
+      })
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .then(response => {
+        expect(response.body.email).toBe('test@test.com')
       })
   })
 
