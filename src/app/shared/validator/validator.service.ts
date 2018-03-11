@@ -1,4 +1,4 @@
-import { Component, Inject } from '@nestjs/common';
+import { Component, Inject } from '@nestjs/common'
 import * as Ajv from 'ajv'
 import * as setupAsync from 'ajv-async'
 import { loadSchemas } from './util/loadSchemas'

@@ -1,5 +1,5 @@
-import { HttpException } from '@nestjs/core';
-import { Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
+import { HttpException } from '@nestjs/core'
+import { Catch, ExceptionFilter, HttpStatus } from '@nestjs/common'
 import * as ajv from 'ajv'
 import { ErrorMessage } from '../../common/ErrorMessage'
 import { ServerResponse } from 'http'
@@ -12,23 +12,23 @@ export class HttpExceptionFilter implements ExceptionFilter {
     exception: HttpException,
     response: ServerResponse
   ) {
-    console.error(exception);
+    console.error(exception)
 
     if (exception instanceof ErrorMessage) {
-      response.setHeader('x-message-code-error', exception.messageCode);
-      response.setHeader('x-message', exception.message);
-      response.setHeader('x-httpStatus-error', exception.httpStatus);
+      response.setHeader('x-message-code-error', exception.messageCode)
+      response.setHeader('x-message', exception.message)
+      response.setHeader('x-httpStatus-error', exception.httpStatus)
 
-      return response.status(exception.httpStatus).send();
+      return response.status(exception.httpStatus).send()
     } else if (exception instanceof ValidationError) {
-      response.setHeader('x-message-code-error', exception.errors[0].keyword);
-      response.setHeader('x-message', exception.errors[0].message);
-      response.setHeader('x-httpStatus-error', HttpStatus.BAD_REQUEST);
+      response.setHeader('x-message-code-error', exception.errors[0].keyword)
+      response.setHeader('x-message', exception.errors[0].message)
+      response.setHeader('x-httpStatus-error', HttpStatus.BAD_REQUEST)
 
-      return response.status(HttpStatus.BAD_REQUEST).send();
+      return response.status(HttpStatus.BAD_REQUEST).send()
     } else {
       console.log('NOT VALIDATION ERROR?')
-      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).send();
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).send()
     }
   }
 }

@@ -1,9 +1,9 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus } from '@nestjs/common'
 
 export interface IErrorMessage {
-  name: string;
-  httpStatus: HttpStatus;
-  message: string;
+  name: string
+  httpStatus: HttpStatus
+  message: string
 }
 
 export interface IErrorMessages {
@@ -12,13 +12,12 @@ export interface IErrorMessages {
 }
 
 export class ErrorMessage extends Error {
-  public messageCode: string;
-  public httpStatus: number;
-  // public errorMessage: string;
+  public messageCode: string
+  public httpStatus: number
   static errorCodes = {}
 
   constructor (messageCode: string) {
-    super();
+    super()
 
     const errorMessage = ErrorMessage.errorCodes[messageCode]
 
@@ -26,11 +25,11 @@ export class ErrorMessage extends Error {
       throw Error('Could not find errorMessage')
     }
 
-    Error.captureStackTrace(this, this.constructor);
-    this.name = this.constructor.name;
-    this.httpStatus = errorMessage.httpStatus;
-    this.messageCode = messageCode;
-    this.message = errorMessage.message;
+    Error.captureStackTrace(this, this.constructor)
+    this.name = this.constructor.name
+    this.httpStatus = errorMessage.httpStatus
+    this.messageCode = messageCode
+    this.message = errorMessage.message
   }
 
   static addErrorMessages(errorMessages: IErrorMessages) {
