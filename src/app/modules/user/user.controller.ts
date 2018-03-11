@@ -35,8 +35,6 @@ export class UserController {
 
     const result = await this.userService.authenticate(email, password)
 
-    console.log('loginUser:', result, email, password)
-
     return response
       .status(HttpStatus.ACCEPTED)
       .json(result)
@@ -53,8 +51,6 @@ export class UserController {
   @Bind(Body())
   async registerUser(user: User) {
     await this.validatorService.validate('registration', user)
-
-    console.log('validated?')
 
     const { email, password } = user
 

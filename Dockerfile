@@ -8,10 +8,12 @@ ENV WHITELIST http://localhost,http://test.com
 # For node bcrypt
 RUN apk --no-cache add --virtual builds-deps build-base python
 
+
 ADD . /app
 
 WORKDIR /app
-RUN yarn install --production
+RUN npm install
+RUN npm rebuild bcrypt --build-from-source
 
 EXPOSE 2302
 
