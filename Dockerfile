@@ -1,4 +1,4 @@
-FROM node/alpine
+FROM node:alpine
 
 ENV CLIENT_ID authumn
 ENV SALT_ROUNDS 10
