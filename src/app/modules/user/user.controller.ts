@@ -5,8 +5,9 @@ import {
   Post,
   Put,
   Bind,
-  Get,
-} from '@nestjs/common';
+  Response,
+  Get, HttpStatus
+} from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './models'
 import { ValidatorService } from '../../shared/validator/validator.service'
@@ -27,7 +28,7 @@ export class UserController {
    */
   @Post('/login')
   @Bind(Body())
-  async loginUser(user: User) {
+  async loginUser(user: User, @Response() response) {
     await this.validatorService.validate('login', user)
 
     const { email, password } = user
@@ -36,7 +37,9 @@ export class UserController {
 
     console.log('loginUser:', result, email, password)
 
-    return result
+    return response
+      .status(HttpStatus.ACCEPTED)
+      .json(result)
   }
 
   /**

@@ -1,17 +1,12 @@
 import { HttpException } from '@nestjs/core';
 import { Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import * as ajv from 'ajv'
-import { MessageCodeError } from '../../common/MessageCodeError'
+import { ErrorMessage } from '../../common/ErrorMessage'
 import { ServerResponse } from 'http'
 
 const { ValidationError } = ajv
 
-@Catch(
-  ValidationError,
-  MessageCodeError,
-  HttpException,
-  Error
-)
+@Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   public catch (
     exception: HttpException,
@@ -19,7 +14,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
   ) {
     console.error(exception);
 
-    if (exception instanceof MessageCodeError) {
+    if (exception instanceof ErrorMessage) {
       response.setHeader('x-message-code-error', exception.messageCode);
       response.setHeader('x-message', exception.message);
       response.setHeader('x-httpStatus-error', exception.httpStatus);

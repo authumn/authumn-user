@@ -31,28 +31,56 @@ describe('UserService', () => {
       .flush()
   })
 
-  it(`/POST register`, () => {
-    return request(server)
-      .post('/user/register')
-      .send({
-        email: 'test@test.com',
-        password: '123456'
-      })
-      .expect(201)
-      .expect('Content-Type', /json/)
-      .then(response => {
-        expect(response.body.email).toBe('test@test.com')
-      })
+  describe('Register', () => {
+    it(`/POST register`, () => {
+      return request(server)
+        .post('/user/register')
+        .send({
+          email: 'test@test.com',
+          password: '123456'
+        })
+        .expect(201)
+        .expect('Content-Type', /json/)
+        .then(response => {
+          expect(response.body.email).toBe('test@test.com')
+        })
+    })
+
+    it(`/POST register cannot register twice`, () => {
+      return request(server)
+        .post('/user/register')
+        .send({
+          email: 'test@test.com',
+          password: '123456'
+        })
+        .expect(400)
+    })
   })
 
-  it(`/POST register cannot register twice`, () => {
-    return request(server)
-      .post('/user/register')
-      .send({
-        email: 'test@test.com',
-        password: '123456'
-      })
-      .expect(400)
+  describe('Login', () => {
+    it(`/POST can login with correct credentials`, () => {
+      return request(server)
+        .post('/user/login')
+        .send({
+          email: 'test@test.com',
+          password: '123456'
+        })
+        .expect(202)
+        .expect('Content-Type', /json/)
+        .then(response => {
+          expect(response.body.email).toBe('test@test.com')
+        })
+    })
+
+    it(`/POST cannot login with incorrect credentials`, () => {
+      return request(server)
+        .post('/user/login')
+        .send({
+          email: 'test@test.com',
+          password: '123456wrong'
+        })
+        .expect(400)
+    })
   })
 
   afterAll(async () => {

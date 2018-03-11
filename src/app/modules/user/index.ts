@@ -5,6 +5,11 @@ import { MongoDbAdapter } from './adapter/mongo.adapter'
 import { databaseProviders } from '../../database/database.providers'
 import { ValidatorService } from '../../shared/validator/validator.service'
 
+import { userErrors } from './user.errors'
+import { ErrorMessage } from '../../common/ErrorMessage'
+
+ErrorMessage.addErrorMessages(userErrors)
+
 @Module({
   imports: [
   ],

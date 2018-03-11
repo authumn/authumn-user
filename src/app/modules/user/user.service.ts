@@ -3,6 +3,7 @@ import { User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { environment } from '../../../environments/environment'
+import { ErrorMessage } from '../../common/ErrorMessage'
 
 const saltRounds = environment.saltRounds
 
@@ -33,7 +34,7 @@ export class UserService {
       }
     }
 
-    throw Error('Not Authenticated')
+    throw new ErrorMessage('user:credentialsInvalid')
   }
 
   /**
