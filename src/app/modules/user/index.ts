@@ -2,7 +2,6 @@ import { MiddlewaresConsumer, Module, RequestMethod } from '@nestjs/common'
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
-import { databaseProviders } from '../../database/database.providers'
 import { ValidatorService } from '../../shared/validator/validator.service'
 
 import { userErrors } from './user.errors'
@@ -10,17 +9,18 @@ import { ErrorMessage } from '../../common/ErrorMessage'
 import { AuthMiddleware } from '../../common/middleware/auth.middleware'
 import { PasswordService } from './password.service'
 import { MailService } from './mail.service'
+import { DatabaseModule } from '../../database'
 
 ErrorMessage.addErrorMessages(userErrors)
 
 @Module({
   imports: [
+    DatabaseModule
   ],
   controllers: [
     UserController
   ],
   components: [
-    ...databaseProviders,
     UserService,
     MailService,
     PasswordService,

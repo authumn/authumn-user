@@ -1,8 +1,18 @@
 import { Module } from '@nestjs/common';
-import { databaseProviders } from './database.providers';
+import { mongoProvider } from './mongo.provider'
+import { redisProvider } from './redis.provider'
+
+export const databaseProviders = [
+  mongoProvider,
+  redisProvider
+]
 
 @Module({
-  components: [...databaseProviders],
-  exports: [...databaseProviders],
+  components: [
+    ...databaseProviders
+  ],
+  exports: [
+    ...databaseProviders
+  ]
 })
 export class DatabaseModule {}

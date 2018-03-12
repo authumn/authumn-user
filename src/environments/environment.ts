@@ -12,6 +12,11 @@ export const environment = {
   clientId: process.env.CLIENT_ID || 'authumn',
   port: process.env.PORT || 2302,
   saltRounds: parseInt(process.env.SALT_ROUNDS, 10) || 10,
+  redis: {
+    port: process.env.REDIS_PORT || 6379,
+    host: process.env.REDIS_HOST || 'localhost',
+    database: process.env.REDIS_DATABASE || 1
+  },
   mongo: {
     url: process.env.MONGO_URL || 'mongodb://localhost/authumn-user'
   },
