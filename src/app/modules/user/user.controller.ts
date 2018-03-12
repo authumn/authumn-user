@@ -11,12 +11,14 @@ import {
 import { UserService } from './user.service'
 import { User } from './models'
 import { ValidatorService } from '../../shared/validator/validator.service'
+import { PasswordService } from './password.service'
 
 @Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    private readonly validatorService: ValidatorService
+    private readonly validatorService: ValidatorService,
+    private readonly passwordService: PasswordService
   ) {}
 
   /**
@@ -72,5 +74,27 @@ export class UserController {
   @Bind(Param('_id'))
   async findById (_id: string) {
     return this.userService.findById(_id)
+  }
+
+  // Password
+  @Put('/password')
+  @Bind(Body())
+  async updatePassword (body) {
+    return this.userService.updatePassword(body.password)
+  }
+
+  @Get('/reset_token')
+  async resetToken() {
+
+  }
+
+  @Post('/reset_password')
+  async resetPassword() {
+
+  }
+
+  @Post('/forgot_password')
+  async forgotPassword() {
+
   }
 }

@@ -4,6 +4,7 @@ ENV CLIENT_ID authumn
 ENV SALT_ROUNDS 10
 ENV MONGO_URL mongodb://localhost/authumn
 ENV WHITELIST http://localhost,http://test.com
+ENV JWT_SECRET change_me
 
 ADD . /app
 

@@ -12,6 +12,7 @@ export class MongoDbAdapter implements IUserDbAdapter {
     return this.mongo
       .collection('users')
       .find(by)
+      .toArray()
   }
 
   async findOne(by): Promise<User> {
@@ -45,20 +46,24 @@ export class MongoDbAdapter implements IUserDbAdapter {
     return collection.findOne({ _id: id })
   }
 
-  async update({_id, email, password}: User): Promise<User> {
-    const user = await this.findById(_id)
+  async updateUser(user: Partial<User>): Promise<User> {
+    const _user = await this.findById(user._id)
 
     const collection = await this.mongo.collection('users')
 
-    const result = await collection.update({ _id }, {
-      email,
-      password
+    const changes = {}
+
+    Object.keys(user).forEach((key) => {
+      if (_user[key] !== user[key]) {
+        changes[key] = user[key]
+      }
     })
 
-    return {
-      _id: result._id,
-      email: result.email
-    }
+    const result = await collection.update({ _id: user._id }, changes)
+
+    delete result.password
+
+    return result
   }
 
   async findAll(): Promise<User[]>  {

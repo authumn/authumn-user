@@ -6,12 +6,14 @@ import { UserService } from '../../src/app/modules/user/user.service'
 import { INestApplication } from '@nestjs/common'
 import { HttpExceptionFilter } from '../../src/app/shared/filters/HttpExceptionFilter'
 import { MongoDbAdapter } from '../../src/app/modules/user/adapter/mongo.adapter'
+import { generateFakeAccessToken } from '../../src/support/generateFakeAccessToken'
 
 describe('UserService', () => {
   let server
   let app: INestApplication
-
-  const userService = { findAll: () => ['srd'] }
+  let fakeAccessToken
+  let authorizationHeader
+  let testUser
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -24,11 +26,26 @@ describe('UserService', () => {
     server = express()
     app = module.createNestApplication(server)
     app.useGlobalFilters(new HttpExceptionFilter())
+
     await app.init()
-    app
+    await app
       .select(UserModule)
       .get(MongoDbAdapter)
       .flush()
+
+    const userService = await app
+      .select(UserModule)
+      .get(UserService)
+
+    testUser = await userService.createUser('fake@test.com', '123password')
+
+    fakeAccessToken = await generateFakeAccessToken(
+      testUser._id,
+      testUser.email,
+      process.env.JWT_SECRET
+    )
+
+    authorizationHeader = `Bearer ${fakeAccessToken}`
   })
 
   describe('Register', () => {
@@ -81,6 +98,75 @@ describe('UserService', () => {
         })
         .expect(400)
     })
+  })
+
+  describe('User Admin', () => {
+    it(`/GET cannot list users without being authenticated`, () => {
+      return request(server)
+        .get('/user/list')
+        .expect(401)
+    })
+    it(`/GET cannot get user without being authenticated`, () => {
+      return request(server)
+        .get('/user/1')
+        .expect(401)
+    })
+
+    it(`/GET can list users if authenticated`, () => {
+      return request(server)
+        .get('/user/list')
+        .set('Authorization', authorizationHeader)
+        .expect(200)
+    })
+
+    it(`/GET can get user if authenticated`, () => {
+      return request(server)
+        .get(`/user/${testUser._id}`)
+        .set('Authorization', authorizationHeader)
+        .expect(200)
+    })
+
+    it(`/GET can update password`, () => {
+      return request(server)
+        .put('/user/password')
+        .send({
+          password: '123456new'
+        })
+        .set('Authorization', authorizationHeader)
+        .expect(200)
+    })
+
+    /*
+    it(`/GET cannot update user id`, () => {
+      return request(server)
+        .put('/user')
+        .send({
+          _id: 'different-id'
+        })
+        .set('Authorization', authorizationHeader)
+        .expect(200)
+    })
+
+    it(`/GET cannot directly update user's password`, () => {
+      return request(server)
+        .put('/user')
+        .send({
+          password: 'brand-new'
+        })
+        .set('Authorization', authorizationHeader)
+        .expect(200)
+    })
+
+    it(`/GET cannot directly update user's email`, () => {
+      return request(server)
+        .put('/user')
+        .send({
+          email: 'another_email@test.com'
+        })
+        .set('Authorization', authorizationHeader)
+        .expect(200)
+    })
+    */
   })
 
   afterAll(async () => {
