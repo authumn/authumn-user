@@ -1,16 +1,17 @@
-import { Inject, Middleware, NestMiddleware } from '@nestjs/common'
+import { Middleware, NestMiddleware } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 import * as jwt from 'jsonwebtoken'
 import { ErrorMessage } from '../ErrorMessage'
 import { authErrors } from './auth.errors'
 import { UserService } from '../../modules/user/user.service'
+import { ConfigService } from '../../modules/config'
 
 ErrorMessage.addErrorMessages(authErrors)
 
 @Middleware()
 export class AuthMiddleware implements NestMiddleware {
   constructor(
-    @Inject('ConfigToken') private config,
+    private config: ConfigService,
     private userService: UserService
   ) {}
   resolve () {

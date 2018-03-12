@@ -1,8 +1,9 @@
 import { MongoClient } from 'mongodb'
+import { ConfigService } from '../modules/config'
 
 export const mongoProvider = {
   provide: 'MongoDbConnectionToken',
-  useFactory: async (config) => {
+  useFactory: async (config: ConfigService) => {
     const {
       clientId,
       mongo: {
@@ -23,5 +24,5 @@ export const mongoProvider = {
       throw Error('Failed to connect')
     }
   },
-  inject: ['ConfigToken']
+  inject: [ConfigService]
 }

@@ -1,12 +1,13 @@
-import { Component, Inject } from '@nestjs/common'
+import { Component } from '@nestjs/common'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { MailService } from './mail.service'
+import { ConfigService } from '../config'
 
 @Component()
 export class PasswordService {
   constructor(
-    @Inject('ConfigToken') private config,
+    private config: ConfigService,
     private adapter: MongoDbAdapter,
     private mailService: MailService
   ) {}

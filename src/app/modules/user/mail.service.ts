@@ -1,10 +1,11 @@
-import { Component, Inject } from '@nestjs/common'
+import { Component } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
+import { ConfigService } from '../config'
 
 @Component()
 export class MailService {
   constructor(
-    @Inject('ConfigToken') private config
+    private config: ConfigService
   ) {}
   sendMail(template, user) {
     const transport = nodemailer.createTransport(this.config.mailer.transport)

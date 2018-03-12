@@ -9,14 +9,14 @@ import * as ajv from 'ajv'
 import { ErrorMessage } from '../../common/ErrorMessage'
 import { ServerResponse } from 'http'
 import { JsonWebTokenError } from 'jsonwebtoken'
+import { ConfigService } from '../../modules/config'
 
 const { ValidationError } = ajv
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   constructor(
-    @Inject('ConfigToken') private config,
-    private loggerService: LoggerService
+    private config: ConfigService
   ) {}
   public catch (
     exception: Error,

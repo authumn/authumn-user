@@ -3,13 +3,23 @@ import { ApplicationModule } from './app/app.module'
 import { INestApplication } from '@nestjs/common/interfaces/nest-application.interface'
 import { createCorsOptions } from './app/common/cors'
 import { HttpExceptionFilter } from './app/shared/filters/HttpExceptionFilter'
+import { ConfigModule, ConfigService } from './app/modules/config'
+import { environment } from './environments/environment'
 
 const pkg = require('../package.json')
+
+process.on('unhandledRejection', r => console.error(r))
 
 const app: Promise<INestApplication> = NestFactory.create(ApplicationModule)
 
 app.then(instance => {
-  const config = instance.get('ConfigToken')
+  /* Not found..
+  const config = instance
+    .select(ConfigModule)
+    .get(ConfigService)
+  */
+  const config = environment // FIXME
+
   const exceptionFilter = instance.get(HttpExceptionFilter)
 
   instance.enableCors(createCorsOptions(config.whitelist))
@@ -21,3 +31,4 @@ app.then(instance => {
   .catch((error) => {
     console.error(error)
   })
+

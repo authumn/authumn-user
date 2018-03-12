@@ -1,16 +1,17 @@
-import { Component, Inject } from '@nestjs/common'
+import { Component } from '@nestjs/common'
 import { User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { ErrorMessage } from '../../common/ErrorMessage'
 import { PasswordService } from './password.service'
+import { ConfigService } from '../config'
 
 @Component()
 export class UserService {
   private _user: User
 
   constructor(
-    @Inject('ConfigToken') private config,
+    private config: ConfigService,
     private adapter: MongoDbAdapter,
     private passwordService: PasswordService
   ) {}
