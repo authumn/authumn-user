@@ -2,7 +2,6 @@ import {
   HttpException,
   ExceptionFilter,
   HttpStatus,
-  NotFoundException,
   Catch,
   LoggerService
 } from '@nestjs/common'

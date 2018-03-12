@@ -1,10 +1,9 @@
-import { Component, Inject } from '@nestjs/common';
+import { Component } from '@nestjs/common';
 import { User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { environment } from '../../../environments/environment'
 import { ErrorMessage } from '../../common/ErrorMessage'
-import { UserIdentity } from './models/user-identity'
 import { PasswordService } from './password.service'
 
 const saltRounds = environment.saltRounds

@@ -1,9 +1,7 @@
-import { Bind, Body, Component, Get, Inject, Post } from '@nestjs/common'
-import { User } from './models'
+import { Component } from '@nestjs/common'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { environment } from '../../../environments/environment'
-import { ErrorMessage } from '../../common/ErrorMessage'
 import { MailService } from './mail.service'
 
 const saltRounds = environment.saltRounds
@@ -52,17 +50,14 @@ export class PasswordService {
 
   }
 
-  @Get('/reset_token')
   async resetToken() {
 
   }
 
-  @Post('/reset_password')
   async resetPassword() {
 
   }
 
-  @Post('/forgot_password')
   async forgotPassword() {
 
   }

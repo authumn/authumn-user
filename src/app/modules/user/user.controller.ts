@@ -1,12 +1,13 @@
 import {
-  Controller,
+  Bind,
   Body,
+  Controller,
+  Get,
+  HttpStatus,
   Param,
   Post,
   Put,
-  Bind,
-  Response,
-  Get, HttpStatus
+  Response
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './models'
