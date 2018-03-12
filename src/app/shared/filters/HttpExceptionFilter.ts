@@ -3,19 +3,19 @@ import {
   ExceptionFilter,
   HttpStatus,
   Catch,
-  LoggerService
+  LoggerService, Inject
 } from '@nestjs/common'
 import * as ajv from 'ajv'
 import { ErrorMessage } from '../../common/ErrorMessage'
 import { ServerResponse } from 'http'
 import { JsonWebTokenError } from 'jsonwebtoken'
-import { environment } from '../../../environments/environment'
 
 const { ValidationError } = ajv
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
   constructor(
+    @Inject('ConfigToken') private config,
     private loggerService: LoggerService
   ) {}
   public catch (
@@ -58,9 +58,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       }
     }
 
-    response.setHeader(`x-${environment.clientId}-error-code`, error.code)
-    response.setHeader(`x-${environment.clientId}-error-message`, error.message)
-    response.setHeader(`x-${environment.clientId}-error-statusCode`, error.statusCode)
+    response.setHeader(`x-${this.config.clientId}-error-code`, error.code)
+    response.setHeader(`x-${this.config.clientId}-error-message`, error.message)
+    response.setHeader(`x-${this.config.clientId}-error-statusCode`, error.statusCode)
     response
       .status(error.statusCode)
       .send(error.body)

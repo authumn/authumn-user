@@ -1,11 +1,10 @@
 import * as jwt from 'jsonwebtoken'
 import * as uuid from 'uuid'
-import { environment } from '../environments/environment'
 
 const expirationTime = 10 * 1000
 const issuer = 'test.com'
 
-export async function generateFakeAccessToken (userId, email, secret = environment.jwt.secret): Promise<string> {
+export async function generateFakeAccessToken (userId, email, secret): Promise<string> {
   const issuedAt = Math.floor(Date.now() / 1000)
   const jwtid = uuid.v4()
 

@@ -10,11 +10,13 @@ import { AuthMiddleware } from '../../common/middleware/auth.middleware'
 import { PasswordService } from './password.service'
 import { MailService } from './mail.service'
 import { DatabaseModule } from '../../database'
+import { ConfigModule } from '../config'
 
 ErrorMessage.addErrorMessages(userErrors)
 
 @Module({
   imports: [
+    ConfigModule,
     DatabaseModule
   ],
   controllers: [

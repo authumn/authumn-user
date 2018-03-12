@@ -1,16 +1,17 @@
 import * as Bluebird from 'bluebird'
 import * as redis from 'redis'
-import { environment } from '../../environments/environment'
 
 Bluebird.promisifyAll(redis.RedisClient.prototype)
 
 export const redisProvider = {
   provide: 'RedisToken',
 
-  useFactory: async () => {
+  useFactory: async (
+    config,
+  ) => {
     const client = redis.createClient(
-      environment.redis.port,
-      environment.redis.host
+      config.redis.port,
+      config.redis.host
     )
 
     client.on('connect', () => {
@@ -26,5 +27,6 @@ export const redisProvider = {
     })
 
     return client
-  }
+  },
+  inject: ['ConfigToken']
 }

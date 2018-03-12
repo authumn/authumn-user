@@ -1,18 +1,17 @@
 import { MongoClient } from 'mongodb'
-import { environment } from '../../environments/environment'
-
-const {
-  clientId,
-  mongo: {
-    url
-  }
-} = environment
-
-const name = `${clientId}-user`
 
 export const mongoProvider = {
   provide: 'MongoDbConnectionToken',
-  useFactory: async () => {
+  useFactory: async (config) => {
+    const {
+      clientId,
+      mongo: {
+        url
+      }
+    } = config
+
+    const name = `${clientId}-user`
+
     try {
       console.log('Connecting to:', url)
       const client = await MongoClient
@@ -23,5 +22,6 @@ export const mongoProvider = {
       console.error(error)
       throw Error('Failed to connect')
     }
-  }
+  },
+  inject: ['ConfigToken']
 }

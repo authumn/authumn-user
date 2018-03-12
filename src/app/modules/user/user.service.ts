@@ -1,18 +1,16 @@
-import { Component } from '@nestjs/common';
+import { Component, Inject } from '@nestjs/common'
 import { User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
-import { environment } from '../../../environments/environment'
 import { ErrorMessage } from '../../common/ErrorMessage'
 import { PasswordService } from './password.service'
-
-const saltRounds = environment.saltRounds
 
 @Component()
 export class UserService {
   private _user: User
 
   constructor(
+    @Inject('ConfigToken') private config,
     private adapter: MongoDbAdapter,
     private passwordService: PasswordService
   ) {}
@@ -119,7 +117,7 @@ export class UserService {
   }
 
   async createUser(email: string, password: string) {
-    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    const hashedPassword = await bcrypt.hash(password, this.config.saltRounds)
 
     return this.adapter.insert({
       email,

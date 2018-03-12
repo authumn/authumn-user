@@ -1,13 +1,14 @@
-import { Component } from '@nestjs/common'
+import { Component, Inject } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
-import { environment } from '../../../environments/environment'
-import { ErrorMessage } from '../../common/ErrorMessage'
 
 @Component()
 export class MailService {
+  constructor(
+    @Inject('ConfigToken') private config
+  ) {}
   sendMail(template, user) {
-    const transport = nodemailer.createTransport(environment.mailer.transport)
+    const transport = nodemailer.createTransport(this.config.mailer.transport)
 
-    return transport.sendMail(environment.mailer[template])
+    return transport.sendMail(this.config.mailer[template])
   }
 }

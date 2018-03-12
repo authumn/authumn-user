@@ -1,14 +1,12 @@
-import { Component } from '@nestjs/common'
+import { Component, Inject } from '@nestjs/common'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
-import { environment } from '../../../environments/environment'
 import { MailService } from './mail.service'
-
-const saltRounds = environment.saltRounds
 
 @Component()
 export class PasswordService {
   constructor(
+    @Inject('ConfigToken') private config,
     private adapter: MongoDbAdapter,
     private mailService: MailService
   ) {}
@@ -31,7 +29,7 @@ export class PasswordService {
    * @returns {Promise<string>}
    */
   async hash(password: string) {
-    return bcrypt.hash(password, saltRounds)
+    return bcrypt.hash(password, this.config.saltRounds)
   }
 
   async resetPassword(passwordResetToken) {
@@ -39,7 +37,7 @@ export class PasswordService {
   }
 
   async sendResetPasswordEmail(user) {
-
+    this.mailService.sendMail('reset_password', user)
   }
 
   async sendForgotPasswordEmail(user) {
