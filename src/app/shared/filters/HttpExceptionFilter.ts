@@ -20,7 +20,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     private loggerService: LoggerService
   ) {}
   public catch (
-    exception: HttpException,
+    exception: Error,
     response: ServerResponse
   ) {
     console.error(exception)
