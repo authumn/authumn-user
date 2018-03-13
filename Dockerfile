@@ -5,6 +5,9 @@ ENV SALT_ROUNDS 10
 ENV MONGO_URL mongodb://localhost/authumn
 ENV WHITELIST http://localhost,http://test.com
 ENV JWT_SECRET change_me
+ENV REDIS_HOST localhost
+ENV REDIS_PORT 6379
+ENV REDIS_DATABASE 1
 
 ADD . /app
 
