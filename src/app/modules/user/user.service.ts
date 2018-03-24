@@ -2,9 +2,9 @@ import { Component } from '@nestjs/common'
 import { User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
-import { ErrorMessage } from '../../common/ErrorMessage'
 import { PasswordService } from './password.service'
 import { ConfigService } from '../config'
+import { ErrorMessage } from '@nestling/errors'
 
 @Component()
 export class UserService {

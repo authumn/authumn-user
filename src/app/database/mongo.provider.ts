@@ -1,9 +1,13 @@
 import { MongoClient } from 'mongodb'
 import { ConfigService } from '../modules/config'
+import { LogService } from '../modules/logger'
 
 export const mongoProvider = {
   provide: 'MongoDbConnectionToken',
-  useFactory: async (config: ConfigService) => {
+  useFactory: async (
+    config: ConfigService,
+    logger: LogService
+  ) => {
     const {
       clientId,
       mongo: {
@@ -14,7 +18,7 @@ export const mongoProvider = {
     const name = `${clientId}-user`
 
     try {
-      console.log('Connecting to:', url)
+      logger.info(`Connecting to: ${url}`)
       const client = await MongoClient
         .connect(url)
 
@@ -24,5 +28,8 @@ export const mongoProvider = {
       throw Error('Failed to connect')
     }
   },
-  inject: [ConfigService]
+  inject: [
+    ConfigService,
+    LogService
+  ]
 }

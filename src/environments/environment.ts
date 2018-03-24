@@ -1,3 +1,5 @@
+import * as objenv from 'objenv'
+
 let whitelist = [
   'http://localhost:4200',
   'http://authumn'
@@ -8,28 +10,33 @@ if (process.env.WHITELIST) {
     .map((str) => str.trim())
 }
 
-export const environment = {
-  clientId: process.env.CLIENT_ID || 'authumn',
-  port: process.env.PORT || 2302,
-  saltRounds: parseInt(process.env.SALT_ROUNDS, 10) || 10,
+// TODO parse to int if number like
+// parseInt(process.env.SALT_ROUNDS, 10) || 10,
+
+export const environment = objenv({
+  client: {
+    id: 'authumn'
+  },
+  port: 2302,
+  saltRounds: 10,
   redis: {
-    port: process.env.REDIS_PORT || 6379,
-    host: process.env.REDIS_HOST || 'localhost',
-    database: process.env.REDIS_DATABASE || 1
+    port: 6379,
+    host: 'localhost',
+    database: 1
   },
   mongo: {
-    url: process.env.MONGO_URL || 'mongodb://localhost/authumn-user'
+    url: 'mongodb://localhost/authumn-user'
   },
   jwt: {
-    secret: process.env.JWT_SECRET || 'change_me'
+    secret: 'change_me'
   },
   whitelist,
   mailer: {
     transport: {
       service: 'SendGrid',
       auth: {
-        user: process.env.SENDGRID_USER,
-        pass: process.env.SENDGRID_PASSWORD
+        user: 'sendgrid_user',
+        pass: 'sendgrid_pass'
       }
     },
     templates: {
@@ -49,4 +56,8 @@ export const environment = {
       }
     }
   }
-}
+}, {
+  prefix: process.env.OBJENV_PREFIX
+}, (key, value) => {
+  console.log(`Env key ${key} found value is now ${value}`)
+})

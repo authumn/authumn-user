@@ -5,12 +5,12 @@ import { MongoDbAdapter } from './adapter/mongo.adapter'
 import { ValidatorService } from '../../shared/validator/validator.service'
 
 import { userErrors } from './user.errors'
-import { ErrorMessage } from '../../common/ErrorMessage'
 import { AuthMiddleware } from '../../common/middleware/auth.middleware'
 import { PasswordService } from './password.service'
 import { MailService } from './mail.service'
 import { DatabaseModule } from '../../database'
 import { ConfigModule, ConfigService } from '../config'
+import { ErrorMessage } from '@nestling/errors'
 
 ErrorMessage.addErrorMessages(userErrors)
 

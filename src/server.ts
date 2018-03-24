@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core'
 import { ApplicationModule } from './app/app.module'
 import { INestApplication } from '@nestjs/common/interfaces/nest-application.interface'
 import { createCorsOptions } from './app/common/cors'
-import { HttpExceptionFilter } from './app/shared/filters/HttpExceptionFilter'
+import { HttpExceptionFilter } from './app/modules/errors/filters/HttpExceptionFilter'
 import { ConfigModule, ConfigService } from './app/modules/config'
 import { environment } from './environments/environment'
+import { LoggerModule, LogService } from './app/modules/logger'
 
 const pkg = require('../package.json')
 
@@ -17,6 +18,8 @@ app.then(instance => {
   const config = instance
     .select(ConfigModule)
     .get(ConfigService)
+  const log = instance
+    .get(LogService)
   */
   const config = environment // FIXME
 
@@ -25,7 +28,7 @@ app.then(instance => {
   instance.enableCors(createCorsOptions(config.whitelist))
   instance.useGlobalFilters(exceptionFilter)
   instance.listen(config.port, () =>
-    console.log(`${pkg.name} is listening on port ${config.port}`)
+    console.info(`${pkg.name} is listening on port ${config.port}`)
   )
 })
   .catch((error) => {

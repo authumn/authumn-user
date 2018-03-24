@@ -1,12 +1,12 @@
 import { HttpStatus } from '@nestjs/common'
-import { IErrorMessages } from '../ErrorMessage'
+import { IErrorMessages } from '@nestling/errors'
 
 export const authErrors: IErrorMessages = {
   type: 'auth',
   errors: [
     {
-      name: 'unauthorized',
-      httpStatus: HttpStatus.UNAUTHORIZED,
+      code: 'unauthorized',
+      statusCode: HttpStatus.UNAUTHORIZED,
       message: 'Not authorized.'
     }
   ]

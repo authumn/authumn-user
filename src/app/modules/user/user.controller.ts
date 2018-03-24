@@ -20,7 +20,9 @@ export class UserController {
     private readonly userService: UserService,
     private readonly validatorService: ValidatorService,
     private readonly passwordService: PasswordService
-  ) {}
+  ) {
+
+  }
 
   /**
    * Authenticates a user using the userService.
