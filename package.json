@@ -23,6 +23,7 @@
     "@nestling/errors": "^1.0.3",
     "@nestling/logger": "^1.0.1",
     "@nestling/mongodb": "^1.0.5",
+    "@nestling/redis": "^1.0.1",
     "@nestling/validator": "^1.0.2",
     "@types/bluebird": "^3.5.20",
     "@types/bunyan": "^1.8.4",

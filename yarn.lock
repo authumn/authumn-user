@@ -75,6 +75,15 @@
     "@nestling/logger" "^1.0.2"
     mongodb "^3.0.5"
 
+"@nestling/redis@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@nestling/redis/-/redis-1.0.1.tgz#9404102cb36bac922993e704d73496cb9ba51bcf"
+  dependencies:
+    "@nestling/config" "^1.0.1"
+    "@nestling/logger" "^1.0.2"
+    bluebird "^3.5.1"
+    redis "^2.8.0"
+
 "@nestling/validator@^1.0.1", "@nestling/validator@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@nestling/validator/-/validator-1.0.2.tgz#73b04938f954a7839be8445a618589856f46c9df"
