@@ -2,10 +2,10 @@ import { NestFactory } from '@nestjs/core'
 import { ApplicationModule } from './app/app.module'
 import { INestApplication } from '@nestjs/common/interfaces/nest-application.interface'
 import { createCorsOptions } from './app/common/cors'
-import { HttpExceptionFilter } from './app/modules/errors/filters/HttpExceptionFilter'
-import { ConfigModule, ConfigService } from './app/modules/config'
+import { ConfigModule, ConfigService } from '@nestling/config'
 import { environment } from './environments/environment'
-import { LoggerModule, LogService } from './app/modules/logger'
+import { LoggerModule, LogService } from '@nestling/logger'
+import { HttpExceptionFilter } from '@nestling/errors'
 
 const pkg = require('../package.json')
 

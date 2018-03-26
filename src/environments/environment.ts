@@ -1,5 +1,3 @@
-import * as objenv from 'objenv'
-
 let whitelist = [
   'http://localhost:4200',
   'http://authumn'
@@ -13,7 +11,7 @@ if (process.env.WHITELIST) {
 // TODO parse to int if number like
 // parseInt(process.env.SALT_ROUNDS, 10) || 10,
 
-export const environment = objenv({
+export const environment = {
   client: {
     id: 'authumn'
   },
@@ -25,7 +23,8 @@ export const environment = objenv({
     database: 1
   },
   mongo: {
-    url: 'mongodb://localhost/authumn-user'
+    database: 'authumn-user',
+    uri: 'mongodb://localhost/authumn-user'
   },
   jwt: {
     secret: 'change_me'
@@ -56,8 +55,4 @@ export const environment = objenv({
       }
     }
   }
-}, {
-  prefix: process.env.OBJENV_PREFIX
-}, (key, value) => {
-  console.log(`Env key ${key} found value is now ${value}`)
-})
+}

@@ -3,7 +3,7 @@ import { User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { PasswordService } from './password.service'
-import { ConfigService } from '../config'
+import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
 
 @Component()

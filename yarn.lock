@@ -42,12 +42,47 @@
   dependencies:
     optional "0.1.4"
 
+"@nestling/config@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@nestling/config/-/config-1.0.1.tgz#473b033c70b7feaffee361a33e01bc251df90313"
+  dependencies:
+    objenv "^2.2.0"
+
 "@nestling/errors@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@nestling/errors/-/errors-1.0.3.tgz#b2f6a56617cad57fc9ac059ddd4faae69288829f"
   dependencies:
     "@nestjs/common" "^4.6.6"
     "@types/jsonwebtoken" "^7.2.6"
+
+"@nestling/logger@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@nestling/logger/-/logger-1.0.1.tgz#9580864d7d069a7ba850139e575a3f396dd536c8"
+  dependencies:
+    bunyan "^1.8.12"
+
+"@nestling/logger@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@nestling/logger/-/logger-1.0.2.tgz#bdc58a153fd1f27d6a0c76cb2a3a24d1049c9f91"
+  dependencies:
+    bunyan "^1.8.12"
+
+"@nestling/mongodb@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@nestling/mongodb/-/mongodb-1.0.5.tgz#4b8726998220b0a82002cda09f31fcd691ca7ec5"
+  dependencies:
+    "@nestling/config" "^1.0.1"
+    "@nestling/logger" "^1.0.2"
+    mongodb "^3.0.5"
+
+"@nestling/validator@^1.0.1", "@nestling/validator@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@nestling/validator/-/validator-1.0.2.tgz#73b04938f954a7839be8445a618589856f46c9df"
+  dependencies:
+    "@nestling/validator" "^1.0.1"
+    ajv "^6.4.0"
+    ajv-async "^1.0.1"
+    glob "^7.1.2"
 
 "@sinonjs/formatio@^2.0.0":
   version "2.0.0"
@@ -236,13 +271,14 @@ ajv@^5.1.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
 
-ajv@^6.2.1:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.3.0.tgz#1650a41114ef00574cac10b8032d8f4c14812da7"
+ajv@^6.2.1, ajv@^6.4.0:
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.4.0.tgz#d3aff78e9277549771daf0164cff48482b754fc6"
   dependencies:
     fast-deep-equal "^1.0.0"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
+    uri-js "^3.0.2"
 
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
@@ -263,8 +299,8 @@ ansi-align@^2.0.0:
     string-width "^2.0.0"
 
 ansi-escapes@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.0.0.tgz#ec3e8b4e9f8064fc02c3ac9b65f1c275bda8ef92"
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-3.1.0.tgz#f73207bb81207d75fd6c83f125af26eea378ca30"
 
 ansi-regex@2, ansi-regex@^2.0.0:
   version "2.1.1"
@@ -3185,7 +3221,7 @@ mongodb-core@3.0.5:
     bson "~1.0.4"
     require_optional "^1.0.1"
 
-mongodb@^3.0.4:
+mongodb@^3.0.4, mongodb@^3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.0.5.tgz#1a3abe6bfdecaee3f35986e1669903b8564a4909"
   dependencies:
@@ -3199,7 +3235,7 @@ ms@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
 
-multer@1.3.0:
+multer@1.3.0, multer@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/multer/-/multer-1.3.0.tgz#092b2670f6846fa4914965efc8cf94c20fec6cd2"
   dependencies:
@@ -3458,7 +3494,7 @@ object.pick@^1.3.0:
   dependencies:
     isobject "^3.0.1"
 
-objenv@^2.1.1:
+objenv@^2.1.1, objenv@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/objenv/-/objenv-2.2.0.tgz#929b378933ba4f28591ed0a39353cf635e92ce55"
   dependencies:
@@ -4810,18 +4846,25 @@ upath@^1.0.0:
   resolved "https://registry.yarnpkg.com/upath/-/upath-1.0.4.tgz#ee2321ba0a786c50973db043a50b7bcba822361d"
 
 update-notifier@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/update-notifier/-/update-notifier-2.3.0.tgz#4e8827a6bb915140ab093559d7014e3ebb837451"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/update-notifier/-/update-notifier-2.4.0.tgz#f9b4c700fbfd4ec12c811587258777d563d8c866"
   dependencies:
     boxen "^1.2.1"
     chalk "^2.0.1"
     configstore "^3.0.0"
     import-lazy "^2.1.0"
+    is-ci "^1.0.10"
     is-installed-globally "^0.1.0"
     is-npm "^1.0.0"
     latest-version "^3.0.0"
     semver-diff "^2.0.0"
     xdg-basedir "^3.0.0"
+
+uri-js@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-3.0.2.tgz#f90b858507f81dea4dcfbb3c4c3dbfa2b557faaa"
+  dependencies:
+    punycode "^2.1.0"
 
 urix@^0.1.0:
   version "0.1.0"

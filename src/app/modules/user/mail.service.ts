@@ -1,6 +1,6 @@
 import { Component } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
-import { ConfigService } from '../config'
+import { ConfigService } from '@nestling/config'
 
 @Component()
 export class MailService {

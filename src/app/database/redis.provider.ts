@@ -1,7 +1,7 @@
 import * as Bluebird from 'bluebird'
 import * as redis from 'redis'
-import { ConfigService } from '../modules/config'
-import { LogService } from '../modules/logger'
+import { ConfigService } from '@nestling/config'
+import { LogService } from '@nestling/logger'
 
 Bluebird.promisifyAll(redis.RedisClient.prototype)
 

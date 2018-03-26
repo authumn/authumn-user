@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { mongoProvider } from './mongo.provider'
+import { mongoProvider } from '@nestling/mongodb'
 import { redisProvider } from './redis.provider'
 
 export const databaseProviders = [

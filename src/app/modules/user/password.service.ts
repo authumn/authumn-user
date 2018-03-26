@@ -2,7 +2,7 @@ import { Component } from '@nestjs/common'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { MailService } from './mail.service'
-import { ConfigService } from '../config'
+import { ConfigService } from '@nestling/config'
 
 @Component()
 export class PasswordService {

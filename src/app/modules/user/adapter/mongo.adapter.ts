@@ -6,7 +6,7 @@ import { WriteOpResult } from 'mongodb'
 @Component()
 export class MongoDbAdapter implements IUserDbAdapter {
   constructor(
-    @Inject('MongoDbConnectionToken') private readonly mongo
+    @Inject('MongoDbToken') private readonly mongo
   ) { }
   async find(by): Promise<User[]> {
     return this.mongo

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './models'
-import { ValidatorService } from '../../shared/validator/validator.service'
+import { ValidatorService } from '@nestling/validator'
 import { PasswordService } from './password.service'
 
 @Controller('user')

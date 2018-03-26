@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from 'express'
 import * as jwt from 'jsonwebtoken'
 import { authErrors } from './auth.errors'
 import { UserService } from '../../modules/user/user.service'
-import { ConfigService } from '../../modules/config'
+import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
 
 @Middleware()
