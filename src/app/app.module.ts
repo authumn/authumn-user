@@ -4,7 +4,14 @@ import { environment } from '../environments/environment'
 
 import { ConfigModule } from '@nestling/config'
 import { LoggerModule } from '@nestling/logger'
-import { HttpExceptionFilter } from '@nestling/errors'
+import {
+  HttpExceptionFilter,
+  validationErrorHandler,
+  jsonWebTokenErrorHandler
+} from '@nestling/errors'
+
+HttpExceptionFilter.addExceptionHandler(validationErrorHandler)
+HttpExceptionFilter.addExceptionHandler(jsonWebTokenErrorHandler)
 
 @Module({
   imports: [

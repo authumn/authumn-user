@@ -2,45 +2,35 @@
   "$id": "registration.json",
   "$async": true,
   "title": "User Registration",
-  "allOf": [
-    {
-      "properties": {
-        "email": {
-          "type": "string",
-          "format": "email",
-          "unique": {
-            "collection": "users",
-            "field": "email"
-          }
-        },
-        "password": {
-          "type": "string",
-          "minLength": 6,
-          "maxLength": 255
-        }
-      },
-      "required": [
-        "email",
-        "password"
-      ]
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email",
+      "unique": {
+        "collection": "users",
+        "field": "email"
+      }
     },
-    {
-      "properties": {
-        "firstName": {
-          "title": "First Name",
-          "type": "string"
-        },
-        "lastName": {
-          "title": "Last Name",
-          "type": "string"
-        },
-        "newsletter": {
-          "title": "Newsletter",
-          "type": "boolean"
-        }
-      },
-      "required": [
-      ]
+    "password": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 255
+    },
+    "firstName": {
+      "title": "First Name",
+      "type": "string"
+    },
+    "lastName": {
+      "title": "Last Name",
+      "type": "string"
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "type": "boolean"
     }
+  },
+  "required": [
+    "email",
+    "password"
   ]
 }
