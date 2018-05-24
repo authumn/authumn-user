@@ -4,14 +4,17 @@ import * as uuid from 'uuid'
 const expirationTime = 10 * 1000
 const issuer = 'test.com'
 
-export async function generateFakeAccessToken (userId, email, secret): Promise<string> {
+export async function generateFakeAccessToken (
+  userId: string,
+  email: string,
+  secret: string
+): Promise<string> {
   const issuedAt = Math.floor(Date.now() / 1000)
   const jwtid = uuid.v4()
 
   return jwt.sign(
     {
       iss: issuer,
-      sub: email,
       aud: 'test_token',
       email,
       sub: userId,

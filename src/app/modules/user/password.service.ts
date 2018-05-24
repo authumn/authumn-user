@@ -1,10 +1,10 @@
-import { Component } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { MailService } from './mail.service'
 import { ConfigService } from '@nestling/config'
 
-@Component()
+@Injectable()
 export class PasswordService {
   constructor(
     private config: ConfigService,
@@ -29,8 +29,8 @@ export class PasswordService {
    * @param {string} password
    * @returns {Promise<string>}
    */
-  async hash(password: string) {
-    return bcrypt.hash(password, this.config.saltRounds)
+  async hash(password: string): Promise<string> {
+    return bcrypt.hash(password, (this.config as any).saltRounds)
   }
 
   async resetPassword(passwordResetToken) {
@@ -50,10 +50,6 @@ export class PasswordService {
   }
 
   async resetToken() {
-
-  }
-
-  async resetPassword() {
 
   }
 

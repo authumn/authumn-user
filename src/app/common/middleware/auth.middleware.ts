@@ -1,4 +1,4 @@
-import { Middleware, NestMiddleware } from '@nestjs/common'
+import { Injectable, NestMiddleware } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 import * as jwt from 'jsonwebtoken'
 import { authErrors } from './auth.errors'
@@ -6,7 +6,7 @@ import { UserService } from '../../modules/user/user.service'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
 
-@Middleware()
+@Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(
     private config: ConfigService,
@@ -14,9 +14,11 @@ export class AuthMiddleware implements NestMiddleware {
   ) {}
   resolve () {
     return async (req: Request, res: Response, next: NextFunction) => {
-      if (req.headers.authorization && (req.headers.authorization as string).split(' ')[0] === 'Bearer') {
-        let token = (req.headers.authorization as string).split(' ')[1]
-        const decoded: any = jwt.verify(token, this.config.jwt.secret)
+      const authorization = req.header('authorization')
+
+      if (authorization && authorization.split(' ')[0] === 'Bearer') {
+        let token = authorization.split(' ')[1]
+        const decoded: any = jwt.verify(token, (this.config as any).jwt.secret)
         const identity = {
           id: decoded.id,
           email: decoded.email

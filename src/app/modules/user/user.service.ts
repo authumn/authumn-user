@@ -1,4 +1,4 @@
-import { Component } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import { User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
@@ -6,9 +6,9 @@ import { PasswordService } from './password.service'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
 
-@Component()
+@Injectable()
 export class UserService {
-  private _user: User
+  private _user!: User
 
   constructor(
     private config: ConfigService,
@@ -20,13 +20,13 @@ export class UserService {
     this._user = user
   }
 
-  get user () {
+  get user (): User {
     return this._user
   }
 
-  async updatePassword(password) {
-    return this.adapter.updateUser({
-      _id: this.user._id,
+  async updatePassword(password: string): Promise<User> {
+    return this.adapter.update({
+      _id: this.user._id as string,
       password: await this.passwordService.hash(password)
     })
   }
@@ -42,11 +42,11 @@ export class UserService {
     const user = await this.findByEmail(email)
 
     if (user) {
-      const match = await bcrypt.compare(password, user.password)
+      const match = await bcrypt.compare(password, user.password as string)
 
       if (match) {
         return {
-          _id: user._id.toString(),
+          _id: (user._id as string),
           email: user.email
         }
       }
@@ -61,7 +61,7 @@ export class UserService {
    * @param {string} id
    * @returns {Promise<User | undefined>}
    */
-  async findOne(where): Promise<User> {
+  async findOne(where: any): Promise<User> {
     return this.adapter.findOne(where)
   }
 
@@ -71,7 +71,7 @@ export class UserService {
    * @param {string} id
    * @returns {Promise<User | undefined>}
    */
-  async findById(id: string) {
+  async findById(id: string): Promise<User> {
     return this.adapter.findById(id)
   }
 
@@ -92,7 +92,7 @@ export class UserService {
    *
    * @returns {Promise<User[]>}
    */
-  async listUsers() {
+  async listUsers(): Promise<User[]> {
     return this.adapter.findAll()
   }
 
@@ -102,7 +102,7 @@ export class UserService {
    * @param {User} user
    * @returns {Promise<User>}
    */
-  async update(user: User) {
+  async update(user: User): Promise<User> {
     return this.adapter.update(user)
   }
 
@@ -113,12 +113,12 @@ export class UserService {
    * @param {string} password
    * @returns {Promise<User>}
    */
-  async register(email: string, password: string) {
+  async register(email: string, password: string): Promise<User> {
     return this.createUser(email, password)
   }
 
-  async createUser(email: string, password: string) {
-    const hashedPassword = await bcrypt.hash(password, this.config.saltRounds)
+  async createUser(email: string, password: string): Promise<User> {
+    const hashedPassword = await bcrypt.hash(password, (this.config as any).saltRounds)
 
     return this.adapter.insert({
       email,

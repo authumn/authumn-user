@@ -1,4 +1,4 @@
-import { MiddlewaresConsumer, Module, RequestMethod } from '@nestjs/common'
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common'
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
@@ -27,12 +27,12 @@ ErrorMessage.addErrorMessages(userErrors)
       inject: [
         mongoProvider
       ]
-    }),
+    })
   ],
   controllers: [
     UserController
   ],
-  components: [
+  providers: [
     UserService,
     MailService,
     PasswordService,
@@ -40,12 +40,12 @@ ErrorMessage.addErrorMessages(userErrors)
   ]
 })
 export class UserModule {
-  configure(consumer: MiddlewaresConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes(
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(AuthMiddleware).forRoutes([
       { path: '/user/list', method: RequestMethod.GET },
       { path: '/user', method: RequestMethod.PUT },
       { path: '/user/:_id', method: RequestMethod.GET },
       { path: '/user/password', method: RequestMethod.POST }
-    )
+    ] as any) // TODO: interface seems to be incorrect in 5.0.0
   }
 }

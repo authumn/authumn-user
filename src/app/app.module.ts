@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewaresConsumer, Component, Inject } from '@nestjs/common'
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common'
 import { UserModule } from './modules/user'
 import { environment } from '../environments/environment'
 
@@ -23,11 +23,11 @@ HttpExceptionFilter.addExceptionHandler(jsonWebTokenErrorHandler)
     }),
     UserModule
   ],
-  components: [
+  providers: [
     HttpExceptionFilter
   ]
 })
 export class ApplicationModule implements NestModule {
-  configure (consumer: MiddlewaresConsumer): void {
+  configure (consumer: MiddlewareConsumer): void {
   }
 }

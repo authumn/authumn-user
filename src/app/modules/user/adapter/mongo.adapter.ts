@@ -1,22 +1,27 @@
 import { IUserDbAdapter } from './IUserDbAdapter'
-import { Component, Inject } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { User } from '../models'
 import { WriteOpResult } from 'mongodb'
+import { ConfigService } from '@nestling/config'
 
-@Component()
+@Injectable()
 export class MongoDbAdapter implements IUserDbAdapter {
+  db
   constructor(
-    @Inject('MongoDbToken') private readonly mongo
-  ) { }
+    @Inject('MongoDbToken') readonly mongo,
+    private config: ConfigService
+  ) {
+    this.db = mongo.db((this.config as any).mongo.database)
+  }
   async find(by): Promise<User[]> {
-    return this.mongo
+    return this.db
       .collection('users')
       .find(by)
       .toArray()
   }
 
   async findOne(by): Promise<User> {
-    return this.mongo
+    return this.db
       .collection('users')
       .findOne(by)
   }
@@ -27,7 +32,7 @@ export class MongoDbAdapter implements IUserDbAdapter {
       password
     }
 
-    const collection = await this.mongo.collection('users')
+    const collection = await this.db.collection('users')
 
     const result = await collection
       .insertOne(user)
@@ -41,15 +46,18 @@ export class MongoDbAdapter implements IUserDbAdapter {
   }
 
   async findById(id: string): Promise<User> {
-    const collection = await this.mongo.collection('users')
+    const collection = await this.db.collection('users')
 
     return collection.findOne({ _id: id })
   }
 
-  async updateUser(user: Partial<User>): Promise<User> {
+  async update(user: Partial<User>): Promise<User> {
+    if (!user._id) {
+      throw Error('Update requires user._id to be set')
+    }
     const _user = await this.findById(user._id)
 
-    const collection = await this.mongo.collection('users')
+    const collection = await this.db.collection('users')
 
     const changes = {}
 
@@ -71,7 +79,7 @@ export class MongoDbAdapter implements IUserDbAdapter {
   }
 
   async flush(): Promise<WriteOpResult>  {
-    return this.mongo
+    return this.db
       .collection('users')
       .remove({})
   }

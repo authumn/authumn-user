@@ -1,15 +1,15 @@
-import { Component } from '@nestjs/common'
+import { Injectable } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
 import { ConfigService } from '@nestling/config'
 
-@Component()
+@Injectable()
 export class MailService {
   constructor(
     private config: ConfigService
   ) {}
-  sendMail(template, user) {
-    const transport = nodemailer.createTransport(this.config.mailer.transport)
+  sendMail(template: string, _user) {
+    const transport = nodemailer.createTransport((this.config as any).mailer.transport)
 
-    return transport.sendMail(this.config.mailer[template])
+    return transport.sendMail((this.config as any).mailer[template])
   }
 }

@@ -1,4 +1,4 @@
-export function createCorsOptions (whitelist) {
+export function createCorsOptions (whitelist: string[]) {
   function origin (orig, callback) {
     if (orig === undefined || whitelist.indexOf(orig) !== -1) {
       callback(null, true)
