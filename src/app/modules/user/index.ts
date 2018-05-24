@@ -4,7 +4,6 @@ import { UserService } from './user.service'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 
 import { userErrors } from './user.errors'
-import { AuthMiddleware } from '../../common/middleware/auth.middleware'
 import { PasswordService } from './password.service'
 import { MailService } from './mail.service'
 import { DatabaseModule } from '../../database'
@@ -40,13 +39,6 @@ ErrorMessage.addErrorMessages(userErrors)
   ]
 })
 export class UserModule {
-  configure(consumer: MiddlewareConsumer) {
-    const routes = [
-      { path: '/user/list', method: RequestMethod.GET },
-      { path: '/user', method: RequestMethod.PUT },
-      { path: '/user/:_id', method: RequestMethod.GET },
-      { path: '/user/password', method: RequestMethod.POST }
-    ]
-    consumer.apply(AuthMiddleware).forRoutes(...routes as any[])
+  configure(_consumer: MiddlewareConsumer) {
   }
 }

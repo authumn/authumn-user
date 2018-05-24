@@ -7,12 +7,13 @@ import {
   Param,
   Post,
   Put,
-  Response
+  Response, UseGuards
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './models'
 import { ValidatorService } from '@nestling/validator'
 import { LoggedInUser, RegisteredUser } from '../../schemas'
+import { AuthGuard } from '../../common/auth'
 
 @Controller('user')
 export class UserController {
@@ -61,18 +62,21 @@ export class UserController {
   }
 
   @Get('/list')
+  @UseGuards(AuthGuard)
   async listUsers (): Promise<User[]> {
     return this.userService.listUsers()
   }
 
   @Put()
   @Bind(Body())
+  @UseGuards(AuthGuard)
   async updateUser (user: User): Promise<User> {
     return this.userService.update(user)
   }
 
   @Get('/:_id')
   @Bind(Param('_id'))
+  @UseGuards(AuthGuard)
   async findById (_id: string): Promise<User> {
     return this.userService.findById(_id)
   }
@@ -80,6 +84,7 @@ export class UserController {
   // Password
   @Put('/password')
   @Bind(Body())
+  @UseGuards(AuthGuard)
   async updatePassword (body): Promise<User> {
     return this.userService.updatePassword(body.password)
   }

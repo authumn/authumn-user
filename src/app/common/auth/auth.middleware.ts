@@ -1,7 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common'
 import { Request, Response, NextFunction } from 'express'
 import * as jwt from 'jsonwebtoken'
-import { authErrors } from './auth.errors'
 import { UserService } from '../../modules/user/user.service'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
@@ -37,6 +36,3 @@ export class AuthMiddleware implements NestMiddleware {
     }
   }
 }
-
-ErrorMessage.addErrorMessages(authErrors)
-
