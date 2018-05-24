@@ -41,11 +41,12 @@ ErrorMessage.addErrorMessages(userErrors)
 })
 export class UserModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes([
+    const routes = [
       { path: '/user/list', method: RequestMethod.GET },
       { path: '/user', method: RequestMethod.PUT },
       { path: '/user/:_id', method: RequestMethod.GET },
       { path: '/user/password', method: RequestMethod.POST }
-    ] as any) // TODO: interface seems to be incorrect in 5.0.0
+    ]
+    consumer.apply(AuthMiddleware).forRoutes(...routes as any[])
   }
 }
