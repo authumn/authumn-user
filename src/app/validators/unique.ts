@@ -1,12 +1,15 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { ConfigService } from '@nestling/config'
+import { Db } from 'mongodb'
+import { Validator } from '@nestling/validator'
 
 @Injectable()
-export class UniqueValidator {
-  keyword = 'unique'
-  async = true
-  type = 'string'
-  db
+export class UniqueValidator implements Validator {
+  public keyword = 'unique'
+  public async = true
+  public type = 'string'
+  public db: Db
+
   constructor(
     @Inject('MongoDbToken') readonly mongo,
     private config: ConfigService

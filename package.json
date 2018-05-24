@@ -24,7 +24,7 @@
     "@nestling/logger": "^1.2.0",
     "@nestling/mongodb": "^1.2.0",
     "@nestling/redis": "^1.1.0",
-    "@nestling/validator": "^1.4.0",
+    "@nestling/validator": "^1.4.5",
     "@types/bcrypt": "^2.0.0",
     "@types/bluebird": "^3.5.20",
     "@types/bunyan": "^1.8.4",
@@ -56,7 +56,7 @@
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.0",
-    "ts-node": "^6.0.4",
+    "ts-node": "^6.0.5",
     "typescript": "^2.8.3",
     "uuid": "^3.2.1"
   },
