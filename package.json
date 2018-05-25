@@ -1,6 +1,6 @@
 {
   "name": "authumn-user",
-  "version": "1.2.0",
+  "version": "0.0.0-development",
   "private": true,
   "description": "Authumn user service",
   "license": "MIT",
@@ -14,7 +14,9 @@
     "watch": "tsc -w",
     "serve": "nodemon --exec ts-node -- --inspect ./src/server.ts",
     "e2e": "JWT_SECRET=secret MONGO_URL=mongodb://localhost/authumn-user-test jest --config=e2e/jest-e2e.json --forceExit",
-    "e2e:watch": "jest --watch --config=e2e/jest-e2e.json"
+    "e2e:watch": "jest --watch --config=e2e/jest-e2e.json",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "dependencies": {
     "@nestjs/common": "^5.0.0",
@@ -64,12 +66,24 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "cz-conventional-changelog": "^2.1.0",
     "jest": "^23.0.0",
     "nodemon": "^1.17.5",
     "rimraf": "^2.6.2",
+    "semantic-release": "^15.5.0",
     "supertest": "^3.1.0",
+    "travis-deploy-once": "^5.0.0",
     "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
     "tslint-config-standard": "^7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/authumn/authumn-user.git"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
