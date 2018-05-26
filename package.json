@@ -92,10 +92,19 @@
     }
   },
   "release": {
-    "verifyConditions": "semantic-release-docker",
-    "publish": {
-      "path": "semantic-release-docker",
-      "name": "rhalff/authumn-user"
-    }
+    "verifyConditions": [
+      "@semantic-release/npm",
+      "semantic-release-docker"
+    ],
+    "publish": [
+      {
+        "path": "@semantic-release/npm",
+        "npmPublish": false
+      },
+      {
+        "path": "semantic-release-docker",
+        "name": "rhalff/authumn-user"
+      }
+    ]
   }
 }
