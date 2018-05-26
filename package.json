@@ -103,7 +103,7 @@
       },
       {
         "path": "semantic-release-docker",
-        "name": "rhalff/authumn-user"
+        "name": "authumn/user-service"
       }
     ]
   }
