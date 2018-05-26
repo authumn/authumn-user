@@ -1,0 +1,17 @@
+.vscode
+.idea
+ATTIC/
+e2e/
+node_modules/
+src/
+.dockerignore
+.gitignore
+*.yml
+*.swp
+*.txt
+ts*.json
+*.log
+Dockerfile
+*.tgz
+jest.json
+.env

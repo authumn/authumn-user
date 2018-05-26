@@ -89,5 +89,12 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "release": {
+    "verifyConditions": "semantic-release-docker",
+    "publish": {
+      "path": "semantic-release-docker",
+      "name": "rhalff/authumn-user"
+    }
   }
 }
