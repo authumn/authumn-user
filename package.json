@@ -22,6 +22,7 @@
   "dependencies": {
     "@nestjs/common": "^5.0.1",
     "@nestjs/core": "^5.0.1",
+    "@nestjs/swagger": "^2.0.2",
     "@nestjs/testing": "^5.0.1",
     "@nestling/config": "^1.1.1",
     "@nestling/context": "^1.2.1",
