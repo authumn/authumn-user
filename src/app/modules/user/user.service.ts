@@ -24,10 +24,12 @@ export class UserService {
     return this._user
   }
 
-  async updatePassword(password: string): Promise<User> {
+  async updatePassword(newPassword: string): Promise<User> {
+    const password = await this.passwordService.hash(newPassword)
+
     return this.adapter.update({
       _id: this.user._id as string,
-      password: await this.passwordService.hash(password)
+      password
     })
   }
 

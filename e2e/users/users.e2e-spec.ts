@@ -4,7 +4,6 @@ import { Test } from '@nestjs/testing'
 import { UserModule } from '../../src/app/modules/user'
 import { UserService } from '../../src/app/modules/user/user.service'
 import { INestApplication } from '@nestjs/common'
-import { HttpExceptionFilter } from '../../src/app/modules/errors/filters/HttpExceptionFilter'
 import { MongoDbAdapter } from '../../src/app/modules/user/adapter/mongo.adapter'
 import { generateFakeAccessToken } from '../../src/support/generateFakeAccessToken'
 import { ApplicationModule } from '../../src/app/app.module'
@@ -15,18 +14,17 @@ describe('UserService', () => {
   let fakeAccessToken
   let authorizationHeader
   let testUser
+  let mongo
+  let redis
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
       imports: [ApplicationModule]
-    })
-//      .overrideComponent(UserService)
-//      .useValue(userService)
-    .compile()
+    }).compile()
 
     server = express()
+
     app = module.createNestApplication(server)
-    // app.useGlobalFilters(new HttpExceptionFilter())
 
     await app.init()
     await app
@@ -38,6 +36,9 @@ describe('UserService', () => {
       .select(UserModule)
       .get(UserService)
 
+    mongo = await app.get('MongoDbToken')
+    redis = await app.get('RedisToken')
+
     testUser = await userService.createUser('fake@test.com', '123password')
 
     fakeAccessToken = await generateFakeAccessToken(
@@ -47,6 +48,11 @@ describe('UserService', () => {
     )
 
     authorizationHeader = `Bearer ${fakeAccessToken}`
+  })
+
+  afterAll(async (done) => {
+    await mongo.close()
+    redis.quit(done)
   })
 
   describe('Register', () => {

@@ -53,6 +53,8 @@ export class AuthGuard implements CanActivate {
 
         if (!user) throw new ErrorMessage('auth:unauthorized')
 
+        this.userService.user = user
+
         this.context.set(contextKey, decoded)
 
         return true

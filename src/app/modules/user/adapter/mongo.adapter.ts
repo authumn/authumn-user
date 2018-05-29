@@ -62,16 +62,18 @@ export class MongoDbAdapter implements IUserDbAdapter {
     const changes = {}
 
     Object.keys(user).forEach((key) => {
-      if (_user[key] !== user[key]) {
+      if (_user[key] !== user[key] && key !== '_id') {
         changes[key] = user[key]
       }
     })
 
     const result = await collection.update({ _id: user._id }, changes)
 
-    delete result.password
+    if (result.ok) {
+      return user
+    }
 
-    return result
+    return this.findById(user._id)
   }
 
   async findAll(): Promise<User[]>  {

@@ -5,6 +5,8 @@ jobs:
       node_js: '10'
       services:
         - docker
+        - mongodb
+        - redis
       script:
         - npm run test
         - docker build -t authumn/user-service .

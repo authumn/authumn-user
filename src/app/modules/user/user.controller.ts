@@ -7,15 +7,19 @@ import {
   Param,
   Post,
   Put,
-  Response, UseGuards
+  Response,
+  UseFilters,
+  UseGuards
 } from '@nestjs/common'
 import { UserService } from './user.service'
 import { User } from './models'
 import { ValidatorService } from '@nestling/validator'
 import { LoggedInUser, RegisteredUser } from '../../schemas'
 import { AuthGuard } from '../../common/auth'
+import { HttpExceptionFilter } from '@nestling/errors'
 
 @Controller('user')
+@UseFilters(new HttpExceptionFilter())
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -54,7 +58,9 @@ export class UserController {
   @Post('/register')
   @Bind(Body())
   async registerUser(user: User): Promise<User> {
+    console.log('user?', user)
     await this.validatorService.validate('registration', user)
+    console.log('validated?', user)
 
     const { email, password } = user as RegisteredUser
 
