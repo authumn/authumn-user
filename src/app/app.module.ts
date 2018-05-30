@@ -24,9 +24,6 @@ HttpExceptionFilter.addExceptionHandler(jsonWebTokenErrorHandler)
       prefix: process.env.OBJENV_PREFIX
     }),
     UserModule
-  ],
-  providers: [
-    HttpExceptionFilter
   ]
 })
 export class ApplicationModule implements NestModule {
