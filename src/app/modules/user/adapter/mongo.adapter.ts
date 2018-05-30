@@ -67,13 +67,13 @@ export class MongoDbAdapter implements IUserDbAdapter {
       }
     })
 
-    const result = await collection.update({ _id: user._id }, changes)
+    const { result } = await collection.update({ _id: user._id }, changes)
 
     if (result.ok) {
-      return user
+      return this.findById(user._id)
     }
 
-    return this.findById(user._id)
+    throw Error('Failed to update user.')
   }
 
   async findAll(): Promise<User[]>  {
