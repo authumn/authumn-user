@@ -3,6 +3,7 @@ import { Injectable, Inject } from '@nestjs/common'
 import { User } from '../models'
 import { WriteOpResult } from 'mongodb'
 import { ConfigService } from '@nestling/config'
+import * as uuid from 'uuid'
 
 @Injectable()
 export class MongoDbAdapter implements IUserDbAdapter {
@@ -26,21 +27,26 @@ export class MongoDbAdapter implements IUserDbAdapter {
       .findOne(by)
   }
 
-  async insert({email, password}: User): Promise<User> {
-    const user = {
-      email,
-      password
-    }
-
+  async insert(user: User): Promise<User> {
     const collection = await this.db.collection('users')
 
-    const result = await collection
-      .insertOne(user)
+    const id = uuid.v4()
 
-    const updated = await this.findById(result.insertedId)
+    const result = await collection
+      .insertOne({
+        ...user,
+        id
+      }, {
+        $currentDate: {
+          created_at: true,
+          updated_at: true
+        }
+      })
+
+    const updated = await this.findById(id)
 
     return {
-      _id: updated._id,
+      id,
       email: updated.email
     }
   }
@@ -48,29 +54,38 @@ export class MongoDbAdapter implements IUserDbAdapter {
   async findById(id: string): Promise<User> {
     const collection = await this.db.collection('users')
 
-    return collection.findOne({ _id: id })
+    return collection.findOne({ id })
   }
 
   async update(user: Partial<User>): Promise<User> {
-    if (!user._id) {
-      throw Error('Update requires user._id to be set')
+    if (!user.id) {
+      throw Error('Update requires user.id to be set')
     }
-    const _user = await this.findById(user._id)
+    const _user = await this.findById(user.id)
 
     const collection = await this.db.collection('users')
 
     const changes = {}
 
     Object.keys(user).forEach((key) => {
-      if (_user[key] !== user[key] && key !== '_id') {
+      if (
+        _user[key] !== user[key] &&
+        key !== '_id' &&
+        key !== 'id'
+      ) {
         changes[key] = user[key]
       }
     })
 
-    const { result } = await collection.update({ _id: user._id }, changes)
+    const { result } = await collection.update({ id: user.id }, {
+      $currentDate: {
+        updated_at: true
+      },
+      $set: changes
+    })
 
     if (result.ok) {
-      return this.findById(user._id)
+      return this.findById(user.id)
     }
 
     throw Error('Failed to update user.')

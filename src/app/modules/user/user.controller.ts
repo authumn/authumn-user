@@ -58,13 +58,11 @@ export class UserController {
   @Post('/register')
   @Bind(Body())
   async registerUser(user: User): Promise<User> {
-    console.log('user?', user)
     await this.validatorService.validate('registration', user)
-    console.log('validated?', user)
 
-    const { email, password } = user as RegisteredUser
+    const { email, password, ...rest } = user as RegisteredUser
 
-    return this.userService.register(email, password)
+    return this.userService.register(email, password, rest)
   }
 
   @Get('/list')
@@ -80,11 +78,11 @@ export class UserController {
     return this.userService.update(user)
   }
 
-  @Get('/:_id')
-  @Bind(Param('_id'))
+  @Get('/:id')
+  @Bind(Param('id'))
   @UseGuards(AuthGuard)
-  async findById (_id: string): Promise<User> {
-    return this.userService.findById(_id)
+  async findById (id: string): Promise<User> {
+    return this.userService.findById(id)
   }
 
   // Password

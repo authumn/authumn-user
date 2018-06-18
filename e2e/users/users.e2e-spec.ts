@@ -39,10 +39,12 @@ describe('UserService', () => {
     mongo = await app.get('MongoDbToken')
     redis = await app.get('RedisToken')
 
-    testUser = await userService.createUser('fake@test.com', '123password')
+    testUser = await userService.createUser('fake@test.com', '123password', {
+      username: 'faker'
+    })
 
     fakeAccessToken = await generateFakeAccessToken(
-      testUser._id,
+      testUser.id,
       testUser.email,
       process.env.JWT_SECRET
     )
@@ -60,6 +62,7 @@ describe('UserService', () => {
       return request(server)
         .post('/user/register')
         .send({
+          username: 'testuser',
           email: 'test@test.com',
           password: '123456'
         })
@@ -70,15 +73,27 @@ describe('UserService', () => {
         })
     })
 
-    it(`/POST register cannot register twice`, () => {
+    it(`/POST register cannot register twice with same email`, () => {
       return request(server)
         .post('/user/register')
         .send({
+          username: 'testuser2',
           email: 'test@test.com',
           password: '123456'
         })
         .expect(400)
     })
+  })
+
+  it(`/POST register cannot register twice with same username`, () => {
+    return request(server)
+      .post('/user/register')
+      .send({
+        username: 'testuser',
+        email: 'test2@test.com',
+        password: '123456'
+      })
+      .expect(400)
   })
 
   describe('Login', () => {

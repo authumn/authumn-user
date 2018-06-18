@@ -11,6 +11,16 @@
         "field": "email"
       }
     },
+    "username": {
+      "title": "Username",
+      "type": "string",
+      "unique": {
+        "collection": "users",
+        "field": "username"
+      },
+      "maxLength": 23,
+      "pattern": "[a-zA-Z0-9]+([_ -]?[a-zA-Z0-9])*$"
+    },
     "password": {
       "type": "string",
       "minLength": 6,
@@ -31,6 +41,7 @@
   },
   "required": [
     "email",
+    "username",
     "password"
   ]
 }

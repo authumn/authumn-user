@@ -14,7 +14,9 @@ export class UserService {
     private config: ConfigService,
     private adapter: MongoDbAdapter,
     private passwordService: PasswordService
-  ) {}
+  ) {
+
+  }
 
   set user(user: User) {
     this._user = user
@@ -28,7 +30,7 @@ export class UserService {
     const password = await this.passwordService.hash(newPassword)
 
     return this.adapter.update({
-      _id: this.user._id as string,
+      id: this.user.id as string,
       password
     })
   }
@@ -48,8 +50,9 @@ export class UserService {
 
       if (match) {
         return {
-          _id: (user._id as string),
-          email: user.email
+          id: (user.id as string),
+          email: user.email,
+          username: user.username
         }
       }
     }
@@ -115,16 +118,19 @@ export class UserService {
    * @param {string} password
    * @returns {Promise<User>}
    */
-  async register(email: string, password: string): Promise<User> {
-    return this.createUser(email, password)
+  async register(email: string, password: string, additionalInfo: any = {}): Promise<User> {
+    return this.createUser(email, password, additionalInfo)
   }
 
-  async createUser(email: string, password: string): Promise<User> {
+  async createUser(email: string, password: string, additionalInfo?: any = {}): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, (this.config as any).saltRounds)
 
-    return this.adapter.insert({
+    const user = {
       email,
-      password: hashedPassword
-    })
+      password: hashedPassword,
+      ...additionalInfo
+    }
+
+    return this.adapter.insert(user)
   }
 }

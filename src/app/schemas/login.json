@@ -12,6 +12,9 @@
       "type": "string",
       "format": "email"
     },
+    "username": {
+      "type": "string"
+    },
     "remember_me": {
       "title": "Remember Me",
       "type": "boolean"
