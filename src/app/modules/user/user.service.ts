@@ -122,7 +122,7 @@ export class UserService {
     return this.createUser(email, password, additionalInfo)
   }
 
-  async createUser(email: string, password: string, additionalInfo?: any = {}): Promise<User> {
+  async createUser(email: string, password: string, additionalInfo: any = {}): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, (this.config as any).saltRounds)
 
     const user = {
