@@ -16,13 +16,22 @@ import { User } from './models'
 import { ValidatorService } from '@nestling/validator'
 import { LoggedInUser, RegisteredUser } from '../../schemas'
 import { AuthGuard } from '../../common/auth'
-import { HttpExceptionFilter } from '@nestling/errors'
+import { ErrorMessage, HttpExceptionFilter } from '@nestling/errors'
+import { PasswordService } from './password.service'
+import { ResponseMessage } from '@nestling/messages'
+import { SendEmailSuccessPayload } from './user.messages'
+
+export interface LostPasswordPayload {
+  email?: string
+  login?: string
+}
 
 @Controller('user')
 @UseFilters(new HttpExceptionFilter())
 export class UserController {
   constructor(
     private readonly userService: UserService,
+    private readonly passwordService: PasswordService,
     private readonly validatorService: ValidatorService
   ) {}
 
@@ -104,7 +113,17 @@ export class UserController {
   }
 
   @Post('/forgot_password')
-  async forgotPassword() {
+  @Bind(Body())
+  async forgotPassword(body: LostPasswordPayload): Promise<SendEmailSuccessPayload> {
+    const user = await this.userService.findByEmail(body.email)
 
+    if (user)  {
+      const reply = await this.passwordService.sendLostPasswordEmail(user)
+
+      // TODO: just also send the code back + payload. code can be type.
+      return new ResponseMessage<SendEmailSuccessPayload>('user:sendEmailSuccess', reply)
+    }
+
+    throw new ErrorMessage('user:notFound')
   }
 }

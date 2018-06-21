@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt'
 import { PasswordService } from './password.service'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
+import { LostPasswordPayload } from './user.controller'
 
 @Injectable()
 export class UserService {

@@ -41,15 +41,15 @@ export const environment = {
     templates: {
       forgotPassword: {
         subject: 'Reset your password',
-        text:
-          'You are receiving this email because you (or someone else) have requested the reset of the password for your account\n' +
+        template:
+          'You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-          '{{reset_link}}\n\n' +
+          'https://localhost:4200/user/password_reset/{{user.id}}\n\n' +
            'If you did not request this, please ignore this email and your password will remain unchanged.\n'
       },
       resetPassword: {
         subject: 'Your password has been changed',
-        text:
+        template:
           'Hello,\n\n' +
           'This is a confirmation that the password for your account has just been changed.'
       }
