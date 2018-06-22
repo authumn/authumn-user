@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Response,
-  UseFilters,
   UseGuards
 } from '@nestjs/common'
 import { UserService } from './user.service'
@@ -16,7 +15,7 @@ import { User } from './models'
 import { ValidatorService } from '@nestling/validator'
 import { LoggedInUser, RegisteredUser } from '../../schemas'
 import { AuthGuard } from '../../common/auth'
-import { ErrorMessage, HttpExceptionFilter } from '@nestling/errors'
+import { ErrorMessage } from '@nestling/errors'
 import { PasswordService } from './password.service'
 import { ResponseMessage } from '@nestling/messages'
 import { SendEmailSuccessPayload } from './user.messages'
@@ -27,7 +26,6 @@ export interface LostPasswordPayload {
 }
 
 @Controller('user')
-@UseFilters(new HttpExceptionFilter())
 export class UserController {
   constructor(
     private readonly userService: UserService,
