@@ -45,7 +45,7 @@ describe('UserService', () => {
 
     fakeAccessToken = await generateFakeAccessToken(
       testUser.id,
-      testUser.email,
+      testUser.username,
       process.env.JWT_SECRET
     )
 

@@ -6,7 +6,7 @@ import {
 import { ErrorMessage } from '@nestling/errors'
 import * as jwt from 'jsonwebtoken'
 import { ConfigService } from '@nestling/config'
-import { Context } from '@nestling/context'
+import { setContext } from '@nestling/context'
 import { UserService } from '../../modules/user/user.service'
 
 export type JWTConfig = {
@@ -21,7 +21,6 @@ export type JWTConfig = {
 export class AuthGuard implements CanActivate {
   constructor (
     private config: ConfigService,
-    private context: Context,
     private userService: UserService
   ) {}
 
@@ -35,7 +34,8 @@ export class AuthGuard implements CanActivate {
     }: JWTConfig = this.config as any
 
     const httpContext = executionContext.switchToHttp()
-    const { headers } = httpContext.getRequest()
+    const request = httpContext.getRequest()
+    const { headers } = request
 
     if (typeof headers[header] === 'string') {
       const parts = headers[header].split(' ')
@@ -44,18 +44,13 @@ export class AuthGuard implements CanActivate {
         const token = parts[1]
         const decoded: any = jwt.verify(token, secret)
 
-        const identity = {
-          id: decoded.sub,
-          email: decoded.email
-        }
-
-        const user = await this.userService.findOne(identity)
+        const user = await this.userService.findById(decoded.sub)
 
         if (!user) throw new ErrorMessage('auth:unauthorized')
 
         this.userService.user = user
 
-        this.context.set(contextKey, decoded)
+        setContext(contextKey, decoded, request)
 
         return true
       }

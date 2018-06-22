@@ -115,13 +115,19 @@ export class UserController {
   @Post('/forgot_password')
   @Bind(Body())
   async forgotPassword(body: LostPasswordPayload): Promise<SendEmailSuccessPayload> {
-    const user = await this.userService.findByEmail(body.email)
+    let user
+
+    if (body.email) {
+      user = await this.userService.findByEmail(body.email)
+    } else if (body.login) {
+      user = await this.userService.findByUsername(body.login)
+    }
 
     if (user)  {
       const reply = await this.passwordService.sendLostPasswordEmail(user)
 
       // TODO: just also send the code back + payload. code can be type.
-      return new ResponseMessage<SendEmailSuccessPayload>('user:sendEmailSuccess', reply)
+      return new ResponseMessage('user:sendEmailSuccess', reply)
     }
 
     throw new ErrorMessage('user:notFound')

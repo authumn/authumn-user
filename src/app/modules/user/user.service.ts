@@ -94,6 +94,18 @@ export class UserService {
   }
 
   /**
+   * Find a user by it's username
+   *
+   * @param {string} id
+   * @returns {Promise<User>}
+   */
+  async findByUsername(username: string): Promise<User> {
+    return this.adapter.findOne({
+      username
+    })
+  }
+
+  /**
    * List all users
    *
    * @returns {Promise<User[]>}

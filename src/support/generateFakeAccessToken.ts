@@ -6,21 +6,23 @@ const issuer = 'test.com'
 
 export async function generateFakeAccessToken (
   userId: string,
-  email: string,
+  username: string,
   secret: string
 ): Promise<string> {
   const issuedAt = Math.floor(Date.now() / 1000)
   const jwtid = uuid.v4()
 
-  return jwt.sign(
-    {
-      iss: issuer,
+  const payload = {
+    iss: issuer,
       aud: 'test_token',
-      email,
-      sub: userId,
-      exp: issuedAt + expirationTime,
-      iat: issuedAt
-    },
+    username,
+    sub: userId,
+    exp: issuedAt + expirationTime,
+    iat: issuedAt
+  }
+
+  return jwt.sign(
+    payload,
     secret,
     {
       algorithm: 'HS256',

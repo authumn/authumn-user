@@ -47,7 +47,8 @@ export class MongoDbAdapter implements IUserDbAdapter {
 
     return {
       id,
-      email: updated.email
+      email: updated.email,
+      username: updated.username
     }
   }
 

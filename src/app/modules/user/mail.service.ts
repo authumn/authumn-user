@@ -18,10 +18,10 @@ export class MailService {
   ) {
     this.transport = nodemailer.createTransport((this.config as any).mailer.transport)
   }
-  async sendMail<TVars = any>(template: string, vars: TVars) {
-    const { subject, template } = (this.config as any).mailer[template]
+  async sendMail<TVars = any>(templateName: string, vars: TVars) {
+    const { subject, template } = (this.config as any).mailer[templateName]
 
-    const text = mustache(template, vars)
+    const text = mustache.render(template, vars)
 
     return this.transport.sendMail({
       subject,
