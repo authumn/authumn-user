@@ -42,12 +42,12 @@ export class UserController {
   @Post('/login')
   @Bind(Body())
   async loginUser(
-    user: User,
+    user: LoggedInUser,
     @Response() response
   ) {
     await this.validatorService.validate('login', user)
 
-    const { login, password } = user as LoggedInUser
+    const { login, password } = user
 
     const result = await this.userService.authenticate(login, password)
 
