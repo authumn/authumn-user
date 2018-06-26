@@ -1,6 +1,5 @@
 export interface LoggedInUser {
   password: string
-  email: string
-  username: string
+  login: string
   remember_me?: boolean
 }

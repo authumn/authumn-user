@@ -97,11 +97,11 @@ describe('UserService', () => {
   })
 
   describe('Login', () => {
-    it(`/POST can login with correct credentials`, () => {
+    it(`/POST can login with email`, () => {
       return request(server)
         .post('/user/login')
         .send({
-          email: 'test@test.com',
+          login: 'test@test.com',
           password: '123456'
         })
         .expect(202)
@@ -119,6 +119,20 @@ describe('UserService', () => {
           password: '123456wrong'
         })
         .expect(400)
+    })
+
+    it(`/POST can login with username`, () => {
+      return request(server)
+        .post('/user/login')
+        .send({
+          login: 'testuser',
+          password: '123456'
+        })
+        .expect(202)
+        .expect('Content-Type', /json/)
+        .then(response => {
+          expect(response.body.email).toBe('test@test.com')
+        })
     })
   })
 

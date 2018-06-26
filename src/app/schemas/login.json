@@ -8,11 +8,7 @@
       "minLength": 6,
       "maxLength": 255
     },
-    "email": {
-      "type": "string",
-      "format": "email"
-    },
-    "username": {
+    "login": {
       "type": "string"
     },
     "remember_me": {
@@ -21,7 +17,7 @@
     }
   },
   "required": [
-    "email",
+    "login",
     "password"
   ]
 }

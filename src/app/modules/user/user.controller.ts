@@ -47,9 +47,9 @@ export class UserController {
   ) {
     await this.validatorService.validate('login', user)
 
-    const { email, password } = user as LoggedInUser
+    const { login, password } = user as LoggedInUser
 
-    const result = await this.userService.authenticate(email, password)
+    const result = await this.userService.authenticate(login, password)
 
     return response
       .status(HttpStatus.ACCEPTED)

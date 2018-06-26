@@ -39,12 +39,18 @@ export class UserService {
   /**
    * Authenticate user by providing email and password.
    *
-   * @param {string} email
+   * @param {string} login Email or username
    * @param {string} password
    * @returns {Promise<User>}
    */
-  async authenticate(email: string, password: string): Promise<User> {
-    const user = await this.findByEmail(email)
+  async authenticate(login: string, password: string): Promise<User> {
+    let user
+
+    user = await this.findByEmail(login)
+
+    if (!user) {
+      user = await this.findByUsername(login)
+    }
 
     if (user) {
       const match = await bcrypt.compare(password, user.password as string)
