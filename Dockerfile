@@ -8,6 +8,9 @@ ENV REDIS_HOST localhost
 ENV REDIS_PORT 6379
 ENV REDIS_DATABASE 1
 
+ENV GRPC_PORT 50051
+ENV GRPC_HOST 0.0.0.0
+
 ADD src/ /app/src
 ADD package.json /app
 ADD tsconfig.json /app
