@@ -154,8 +154,18 @@ export class UserController implements OnModuleInit {
     throw new ErrorMessage('user:notFound')
   }
 
-  @GrpcMethod('UserService', 'Preload')
+  @GrpcMethod('UserService')
   preload(): Observable<OwnerMap[]> {
     return fromPromise(this.userService.idAndNamelist())
+  }
+
+  @GrpcMethod('UserService')
+  getUsername({id}): Observable<OwnerMap> {
+    return fromPromise(
+      this.userService.findById(id).then((user) => ({
+        id: user.id,
+        name: user.username
+      } as OwnerMap))
+    )
   }
 }

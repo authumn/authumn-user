@@ -18,7 +18,7 @@ async function bootstrap() {
     ...grpcClientOptions,
     options: {
       ...grpcClientOptions.options,
-      url: `${environment.grpc.host}:${environment.grpc.port}`
+      url: `${config.grpc.host}:${config.grpc.port}`
     }
   } as ClientOptions)
 
@@ -28,7 +28,8 @@ async function bootstrap() {
 
   await app.listen(config.port)
 
-  console.info(`${pkg.name} is listening on port ${config.port}`)
+  console.info(`${pkg.name} is listening at port ${config.port}`)
+  console.info(`${pkg.name} grpc server is listening at ${config.grpc.host}:${config.grpc.port}`)
 }
 
 bootstrap()

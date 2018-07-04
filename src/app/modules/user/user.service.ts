@@ -134,8 +134,6 @@ export class UserService {
       name: user.username
     })).toArray()
 
-    console.log(list)
-
     return list
   }
 
