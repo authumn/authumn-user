@@ -46,7 +46,7 @@ describe('UserService', () => {
     fakeAccessToken = await generateFakeAccessToken(
       testUser.id,
       testUser.username,
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET as string
     )
 
     authorizationHeader = `Bearer ${fakeAccessToken}`
