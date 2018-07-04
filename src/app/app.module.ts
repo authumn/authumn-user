@@ -35,7 +35,7 @@ HttpExceptionFilter.addExceptionHandler(jsonWebTokenErrorHandler)
       provide: APP_FILTER,
       useClass: HttpExceptionFilter
     }
-  ],
+  ]
 })
 export class ApplicationModule implements NestModule {
   configure (consumer: MiddlewareConsumer): void {

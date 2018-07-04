@@ -14,7 +14,7 @@ export async function generateFakeAccessToken (
 
   const payload = {
     iss: issuer,
-      aud: 'test_token',
+    aud: 'test_token',
     username,
     sub: userId,
     exp: issuedAt + expirationTime,
