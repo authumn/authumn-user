@@ -5,7 +5,6 @@ export const grpcClientOptions: ClientOptions = {
   transport: Transport.GRPC,
   options: {
     package: 'user',
-    protoPath: join(__dirname, './user.proto'),
-    url: '0.0.0.0:50051'
+    protoPath: join(__dirname, './user.proto')
   }
 }

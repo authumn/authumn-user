@@ -54,5 +54,9 @@ export const environment = {
           'This is a confirmation that the password for your account has just been changed.'
       }
     }
+  },
+  grpc: {
+    port: 50051,
+    host: '0.0.0.0'
   }
 }

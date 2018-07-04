@@ -156,7 +156,6 @@ export class UserController implements OnModuleInit {
 
   @GrpcMethod('UserService', 'Preload')
   preload(): Observable<OwnerMap[]> {
-    console.log('FETCH?')
     return fromPromise(this.userService.idAndNamelist())
   }
 }

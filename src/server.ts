@@ -3,6 +3,7 @@ import { ApplicationModule } from './app/app.module'
 import { createCorsOptions } from './app/common/cors'
 import { environment } from './environments/environment'
 import { grpcClientOptions } from './app/grpc-client-options'
+import { ClientOptions } from '@nestjs/microservices'
 
 const pkg = require('../package.json')
 
@@ -13,7 +14,13 @@ async function bootstrap() {
 
   const config = environment // FIXME
 
-  app.connectMicroservice(grpcClientOptions)
+  app.connectMicroservice({
+    ...grpcClientOptions,
+    options: {
+      ...grpcClientOptions.options,
+      url: `${environment.grpc.host}:${environment.grpc.port}`
+    }
+  } as ClientOptions)
 
   await app.startAllMicroservices()
 
