@@ -3,15 +3,24 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
+  HttpStatus, OnModuleInit,
   Param,
   Post,
   Put,
   Response,
   UseGuards
 } from '@nestjs/common'
+
+import {
+  ClientProxy,
+  Client,
+  MessagePattern,
+  GrpcMethod,
+  ClientGrpc
+} from '@nestjs/microservices'
+
 import { UserService } from './user.service'
-import { User } from './models'
+import { OwnerMap, User } from './models'
 import { ValidatorService } from '@nestling/validator'
 import { LoggedInUser, RegisteredUser } from '../../schemas'
 import { AuthGuard } from '../../common/auth'
@@ -19,6 +28,13 @@ import { ErrorMessage } from '@nestling/errors'
 import { PasswordService } from './password.service'
 import { ResponseMessage } from '@nestling/messages'
 import { SendEmailSuccessPayload } from './user.messages'
+import { grpcClientOptions } from '../../grpc-client-options'
+import { Observable, of } from 'rxjs/index'
+import { fromPromise } from 'rxjs/internal/observable/fromPromise'
+
+export interface GrpcUserService {
+  preload(): Observable<any>;
+}
 
 export interface LostPasswordPayload {
   email?: string
@@ -26,12 +42,19 @@ export interface LostPasswordPayload {
 }
 
 @Controller('user')
-export class UserController {
+export class UserController implements OnModuleInit {
+  @Client(grpcClientOptions) private readonly client!: ClientGrpc
+  private grpcUserService!: GrpcUserService
+
   constructor(
     private readonly userService: UserService,
     private readonly passwordService: PasswordService,
     private readonly validatorService: ValidatorService
   ) {}
+
+  onModuleInit () {
+    this.grpcUserService = this.client.getService<GrpcUserService>('UserService')
+  }
 
   /**
    * Authenticates a user using the userService.
@@ -129,5 +152,11 @@ export class UserController {
     }
 
     throw new ErrorMessage('user:notFound')
+  }
+
+  @GrpcMethod('UserService', 'Preload')
+  preload(): Observable<OwnerMap[]> {
+    console.log('FETCH?')
+    return fromPromise(this.userService.idAndNamelist())
   }
 }

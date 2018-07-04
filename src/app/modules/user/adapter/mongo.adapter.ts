@@ -1,7 +1,7 @@
 import { IUserDbAdapter } from './IUserDbAdapter'
 import { Injectable, Inject } from '@nestjs/common'
 import { User } from '../models'
-import { WriteOpResult } from 'mongodb'
+import { Cursor, FilterQuery, FindOneOptions, WriteOpResult } from 'mongodb'
 import { ConfigService } from '@nestling/config'
 import * as uuid from 'uuid'
 
@@ -14,11 +14,11 @@ export class MongoDbAdapter implements IUserDbAdapter {
   ) {
     this.db = mongo.db((this.config as any).mongo.database)
   }
-  async find(by): Promise<User[]> {
+  // find<T = TSchema>(query?: FilterQuery<TSchema>): Cursor<T>;
+  async find<T = any>(query: FilterQuery<any> = {}, options?: any): Promise<Cursor<T>> {
     return this.db
       .collection('users')
-      .find(by)
-      .toArray()
+      .find(query, options)
   }
 
   async findOne(by): Promise<User> {
@@ -93,7 +93,9 @@ export class MongoDbAdapter implements IUserDbAdapter {
   }
 
   async findAll(): Promise<User[]>  {
-    return this.find({})
+    const result = await this.find({})
+
+    return result.toArray()
   }
 
   async flush(): Promise<WriteOpResult>  {
