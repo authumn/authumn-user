@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { OwnerMap, User } from './models'
+import { UserMap, User } from './models'
 import { MongoDbAdapter } from './adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
 import { PasswordService } from './password.service'
@@ -122,7 +122,7 @@ export class UserService {
     return result.toArray()
   }
 
-  async idAndNamelist(): Promise<OwnerMap[]> {
+  async idAndNamelist(): Promise<UserMap[]> {
     const result = await this.adapter.find({}, {
       _id: 0,
       id: 1,

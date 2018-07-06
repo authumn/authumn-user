@@ -18,7 +18,7 @@
     "e2e:watch": "jest --watch --config=e2e/jest-e2e.json",
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once",
-    "build": "docker build -t authumn/user-service:latest .",
+    "build": "npm run prepare && docker build -t authumn/user-service:latest .",
     "ownerlist": "ts-node src/getOwnerList.ts",
     "push": "docker push authumn/user-service:latest"
   },

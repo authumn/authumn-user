@@ -20,7 +20,7 @@ import {
 } from '@nestjs/microservices'
 
 import { UserService } from './user.service'
-import { OwnerMap, User } from './models'
+import { UserMap, User } from './models'
 import { ValidatorService } from '@nestling/validator'
 import { LoggedInUser, RegisteredUser } from '../../schemas'
 import { AuthGuard } from '../../common/auth'
@@ -156,27 +156,27 @@ export class UserController implements OnModuleInit {
   }
 
   @GrpcMethod('UserService')
-  preload(): Observable<OwnerMap[]> {
+  preload(): Observable<UserMap[]> {
     return fromPromise(this.userService.idAndNamelist())
   }
 
   @GrpcMethod('UserService')
-  getUsername({id}): Observable<OwnerMap> {
+  getUsername({id}): Observable<UserMap> {
     return fromPromise(
       this.userService.findById(id).then((user) => ({
         id: user.id,
         name: user.username
-      } as OwnerMap))
+      } as UserMap))
     )
   }
 
   @GrpcMethod('UserService')
-  getId({name}): Observable<OwnerMap> {
+  getId({name}): Observable<UserMap> {
     return fromPromise(
       this.userService.findByUsername(name).then((user) => ({
         id: user.id,
         name: user.username
-      } as OwnerMap))
+      } as UserMap))
     )
   }
 }
