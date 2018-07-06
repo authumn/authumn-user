@@ -7,12 +7,17 @@ package user;
 service UserService {
   rpc Preload (PreloadParams) returns (UserList) {};
   rpc GetUsername (GetUsernameParams) returns (User) {};
+  rpc GetId (GetIdParams) returns (User) {};
 }
 
 message PreloadParams {}
 
 message GetUsernameParams {
   string id = 1;
+}
+
+message GetIdParams {
+  string name = 1;
 }
 
 message User {

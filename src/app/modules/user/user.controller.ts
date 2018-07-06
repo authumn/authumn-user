@@ -33,7 +33,8 @@ import { Observable, of } from 'rxjs/index'
 import { fromPromise } from 'rxjs/internal/observable/fromPromise'
 
 export interface GrpcUserService {
-  preload(): Observable<any>;
+  Preload(): Observable<any>;
+  GetUsername(): Observable<any>;
 }
 
 export interface LostPasswordPayload {
@@ -163,6 +164,16 @@ export class UserController implements OnModuleInit {
   getUsername({id}): Observable<OwnerMap> {
     return fromPromise(
       this.userService.findById(id).then((user) => ({
+        id: user.id,
+        name: user.username
+      } as OwnerMap))
+    )
+  }
+
+  @GrpcMethod('UserService')
+  getId({name}): Observable<OwnerMap> {
+    return fromPromise(
+      this.userService.findByUsername(name).then((user) => ({
         id: user.id,
         name: user.username
       } as OwnerMap))
