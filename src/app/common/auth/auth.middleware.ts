@@ -1,5 +1,5 @@
 import {
-  Injectable,
+  Injectable, MiddlewareFunction,
   NestMiddleware
 } from '@nestjs/common'
 import * as jwt from 'jsonwebtoken'
@@ -14,12 +14,13 @@ export class AuthMiddleware implements NestMiddleware {
     private config: ConfigService,
     private userService: UserService
   ) {}
-  resolve () {
+  // NestJS 5.1 return types are weird so fixed with any
+  resolve (): any {
     return async (
       request: Request,
       response: Response,
       next: NextFunction
-    ) => {
+    ): Promise<any> => {
       const authorization = request.header('authorization')
 
       if (
