@@ -113,7 +113,13 @@ export class UserController implements OnModuleInit {
   @Bind(Param('id'))
   @UseGuards(AuthGuard)
   async findById (id: string): Promise<User> {
-    return this.userService.findById(id)
+    const user: any = this.userService.findById(id)
+
+    if (user) {
+      return user
+    }
+
+    throw new ErrorMessage('user:notFound')
   }
 
   // Password
@@ -163,20 +169,32 @@ export class UserController implements OnModuleInit {
   @GrpcMethod('UserService')
   getUsername({id}): Observable<UserMap> {
     return fromPromise(
-      this.userService.findById(id).then((user) => ({
-        id: user.id,
-        name: user.username
-      } as UserMap))
+      this.userService.findById(id).then((user) => {
+        if (user) {
+          return {
+            id: user.id,
+            name: user.username
+          } as UserMap
+        }
+
+        throw new ErrorMessage('user:notFound')
+      })
     )
   }
 
   @GrpcMethod('UserService')
   getId({name}): Observable<UserMap> {
     return fromPromise(
-      this.userService.findByUsername(name).then((user) => ({
-        id: user.id,
-        name: user.username
-      } as UserMap))
+      this.userService.findByUsername(name).then((user) => {
+        if (user) {
+          return {
+            id: user.id,
+            name: user.username
+          } as UserMap
+        }
+
+        throw new ErrorMessage('user:notFound')
+      })
     )
   }
 }

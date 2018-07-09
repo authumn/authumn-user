@@ -71,11 +71,13 @@
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.1",
+    "superagent": "^3.8.3",
     "ts-node": "^7.0.0",
     "typescript": "^2.9.2",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
+    "@types/superagent": "^3.8.2",
     "chai": "^4.1.2",
     "cz-conventional-changelog": "^2.1.0",
     "grpc-caller": "^0.7.0",

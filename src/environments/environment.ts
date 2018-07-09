@@ -58,5 +58,11 @@ export const environment = {
   grpc: {
     port: 50051,
     host: '0.0.0.0'
+  },
+  gogs: {
+    api: {
+      url: 'http://localhost/api/v1',
+      key: ''
+    }
   }
 }

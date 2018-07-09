@@ -16,6 +16,7 @@ import { DatabaseModule } from '../../database'
 
 import { validators } from '../../validators'
 import { userMessages } from './user.messages'
+import { UserServiceGogs } from './user.service.gogs'
 
 const schemas = loadSchemas(__dirname, '../../schemas')
 
@@ -37,7 +38,10 @@ ResponseMessage.addResponseMessages(userMessages)
     UserController
   ],
   providers: [
-    UserService,
+    {
+      provide: UserService,
+      useClass: UserServiceGogs
+    },
     MailService,
     PasswordService,
     MongoDbAdapter

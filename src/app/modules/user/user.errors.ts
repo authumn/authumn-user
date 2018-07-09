@@ -15,11 +15,11 @@ export const userErrors: IErrorMessages = {
       message: 'Email already exist.'
     },
     {
-      code: 'user:notFound',
+      code: 'notFound',
       statusCode: HttpStatus.NOT_FOUND,
       message: 'Unable to find the user with the provided information.'
     }, {
-      code: 'action:missingData',
+      code: 'missingData',
       statusCode: HttpStatus.BAD_REQUEST,
       message: 'Missing parameter data on the action.'
     }

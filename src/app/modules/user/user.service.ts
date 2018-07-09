@@ -6,9 +6,10 @@ import { PasswordService } from './password.service'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
 import { LostPasswordPayload } from './user.controller'
+import { IUserService } from './interfaces/IUserService'
 
 @Injectable()
-export class UserService {
+export class UserService implements IUserService {
   private _user!: User
 
   constructor(
@@ -73,7 +74,7 @@ export class UserService {
    * @param {string} id
    * @returns {Promise<User | undefined>}
    */
-  async findOne(where: any): Promise<User> {
+  async findOne(where: any): Promise<User | null> {
     return this.adapter.findOne(where)
   }
 
@@ -83,7 +84,7 @@ export class UserService {
    * @param {string} id
    * @returns {Promise<User | undefined>}
    */
-  async findById(id: string): Promise<User> {
+  async findById(id: string): Promise<User | null> {
     return this.adapter.findById(id)
   }
 
@@ -93,7 +94,7 @@ export class UserService {
    * @param {string} id
    * @returns {Promise<User>}
    */
-  async findByEmail(email: string): Promise<User> {
+  async findByEmail(email: string): Promise<User | null> {
     return this.adapter.findOne({
       email
     })
@@ -105,7 +106,7 @@ export class UserService {
    * @param {string} id
    * @returns {Promise<User>}
    */
-  async findByUsername(username: string): Promise<User> {
+  async findByUsername(username: string): Promise<User | null> {
     return this.adapter.findOne({
       username
     })
