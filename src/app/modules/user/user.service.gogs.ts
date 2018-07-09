@@ -15,8 +15,8 @@ export class UserServiceGogs implements IUserService {
   private apiKey: string
 
   constructor(private config: ConfigService) {
-    this.apiUrl = (config as any).gogs.url
-    this.apiKey = (config as any).gogs.key
+    this.apiUrl = (config as any).gogs.api.url
+    this.apiKey = (config as any).gogs.api.key
   }
 
   set user(user: User) {
