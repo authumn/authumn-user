@@ -2,20 +2,20 @@
 
 Handling of registrations and logins.
 
-This service is meant to be run behind the [Authumn Gateway](https://github.com/authumn/authumn-gateway).
+This service is meant to be run behind the [Authumn Gateway](https://gitlab.com/authumn/authumn-gateway).
 
 And solely used to handle logins and registrations.
 
 ### Installation
 
 ```
-$ npm i 
+$ npm i
 ```
 
 ### Start
 
 ```
-$ npm start 
+$ npm start
 ```
 
 ### Docker
@@ -38,4 +38,4 @@ Post()
 `http://localhost:3000/user/login`: Login with username and password
 
 Post()
-`http://localhost:3000/user/register`: Register with username, email and password 
+`http://localhost:3000/user/register`: Register with username, email and password
