@@ -2,7 +2,7 @@
 
 Handling of registrations and logins.
 
-This service is meant to be run behind the [Authumn Gateway](https://gitlab.com/authumn/authumn-gateway).
+This service is meant to be run behind the [Authumn Gateway](https://github.com/authumn/authumn-gateway).
 
 And solely used to handle logins and registrations.
 
