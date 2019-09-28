@@ -62,7 +62,12 @@ const userServiceFactory = (
   providers: [
     {
       provide: IUserService,
-      useFactory: userServiceFactory
+      useFactory: userServiceFactory,
+      inject:[
+        ConfigService,
+        MongoDbAdapter,
+        PasswordService
+      ]
     },
     MailService,
     PasswordService,
