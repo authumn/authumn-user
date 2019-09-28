@@ -12,14 +12,11 @@ import {
 } from '@nestjs/common'
 
 import {
-  ClientProxy,
   Client,
-  MessagePattern,
   GrpcMethod,
   ClientGrpc
 } from '@nestjs/microservices'
 
-import { UserService } from './user.service'
 import { UserMap, User } from './models'
 import { ValidatorService } from '@nestling/validator'
 import { LoggedInUser, RegisteredUser } from '../../schemas'
@@ -29,8 +26,9 @@ import { PasswordService } from './password.service'
 import { ResponseMessage } from '@nestling/messages'
 import { SendEmailSuccessPayload } from './user.messages'
 import { grpcClientOptions } from '../../grpc-client-options'
-import { Observable, of } from 'rxjs/index'
+import { Observable } from 'rxjs'
 import { fromPromise } from 'rxjs/internal/observable/fromPromise'
+import { IUserService } from './interfaces/IUserService'
 
 export interface GrpcUserService {
   Preload(): Observable<any>;
@@ -48,7 +46,7 @@ export class UserController implements OnModuleInit {
   private grpcUserService!: GrpcUserService
 
   constructor(
-    private readonly userService: UserService,
+    private readonly userService: IUserService,
     private readonly passwordService: PasswordService,
     private readonly validatorService: ValidatorService
   ) {}
@@ -61,6 +59,7 @@ export class UserController implements OnModuleInit {
    * Authenticates a user using the userService.
    *
    * @param {User} user
+   * @param {Response} response
    * @returns {Promise<void>}
    */
   @Post('/login')

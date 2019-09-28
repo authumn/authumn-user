@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common'
-import { UserMap, User } from './models'
-import { MongoDbAdapter } from './adapter/mongo.adapter'
+import { UserMap, User } from '../models'
+import { MongoDbAdapter } from '../adapter/mongo.adapter'
 import * as bcrypt from 'bcrypt'
-import { PasswordService } from './password.service'
+import { PasswordService } from '../password.service'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
-import { LostPasswordPayload } from './user.controller'
-import { IUserService } from './interfaces/IUserService'
+import { IUserService } from '../interfaces/IUserService'
 
 @Injectable()
-export class UserService implements IUserService {
+export class UserServiceMongo implements IUserService {
   private _user!: User
 
   constructor(
@@ -71,7 +70,7 @@ export class UserService implements IUserService {
   /**
    * Find a user by it's id and email
    *
-   * @param {string} id
+   * @param {any} where
    * @returns {Promise<User | undefined>}
    */
   async findOne(where: any): Promise<User | null> {
@@ -82,7 +81,7 @@ export class UserService implements IUserService {
    * Find a user by it's id
    *
    * @param {string} id
-   * @returns {Promise<User | undefined>}
+   * @returns {Promise<User | null>}
    */
   async findById(id: string): Promise<User | null> {
     return this.adapter.findById(id)
@@ -91,8 +90,8 @@ export class UserService implements IUserService {
   /**
    * Find a user by it's email
    *
-   * @param {string} id
-   * @returns {Promise<User>}
+   * @param {string} email
+   * @returns {Promise<User | null>}
    */
   async findByEmail(email: string): Promise<User | null> {
     return this.adapter.findOne({
@@ -103,8 +102,8 @@ export class UserService implements IUserService {
   /**
    * Find a user by it's username
    *
-   * @param {string} id
-   * @returns {Promise<User>}
+   * @param {string} username
+   * @returns {Promise<User | null>}
    */
   async findByUsername(username: string): Promise<User | null> {
     return this.adapter.findOne({
@@ -130,12 +129,10 @@ export class UserService implements IUserService {
       name: 1
     })
 
-    const list = await (result as any).map((user) => ({
+    return (result as any).map((user) => ({
       id: user.id,
       name: user.username
     })).toArray()
-
-    return list
   }
 
   /**
@@ -153,6 +150,7 @@ export class UserService implements IUserService {
    *
    * @param {string} email
    * @param {string} password
+   * @param {any} additionalInfo
    * @returns {Promise<User>}
    */
   async register(email: string, password: string, additionalInfo: any = {}): Promise<User> {

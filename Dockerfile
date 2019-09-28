@@ -1,12 +1,16 @@
 FROM node:alpine
 
 ENV CLIENT_ID authumn
-ENV MONGO_URL mongodb://localhost/authumn
+ENV MONGO_URI mongodb://localhost/authumn-user
 ENV WHITELIST http://localhost,http://test.com
 ENV JWT_SECRET change_me
 ENV REDIS_HOST localhost
 ENV REDIS_PORT 6379
 ENV REDIS_DATABASE 1
+ # Either mongo.service or gogs.service
+ENV PROVIDER gogs.service
+ENV GOGS_API_URL 'https://repos.chix.io/api/v1'
+ENV GOGS_API_KEY ''
 
 ENV GRPC_PORT 50051
 ENV GRPC_HOST 0.0.0.0

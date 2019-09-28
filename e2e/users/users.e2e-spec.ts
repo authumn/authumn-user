@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as request from 'supertest'
 import { Test } from '@nestjs/testing'
 import { UserModule } from '../../src/app/modules/user'
-import { UserService } from '../../src/app/modules/user/user.service'
+import { UserServiceMongo } from '../../src/app/modules/user/services/user.service.mongo'
 import { INestApplication } from '@nestjs/common'
 import { MongoDbAdapter } from '../../src/app/modules/user/adapter/mongo.adapter'
 import { generateFakeAccessToken } from '../../src/support/generateFakeAccessToken'
@@ -34,7 +34,7 @@ describe('UserService', () => {
 
     const userService = await app
       .select(UserModule)
-      .get(UserService)
+      .get(UserServiceMongo)
 
     mongo = await app.get('MongoDbToken')
     redis = await app.get('RedisToken')

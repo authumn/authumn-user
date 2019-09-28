@@ -22,6 +22,7 @@ export const environment = {
     host: 'localhost',
     database: 1
   },
+  provider: 'mongo.service', // gogs.service
   mongo: {
     database: 'authumn-user',
     uri: 'mongodb://localhost/authumn-user'

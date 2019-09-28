@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { UserMap, User } from './models'
+import { UserMap, User } from '../models'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
-import { IUserService } from './interfaces/IUserService'
+import { IUserService } from '../interfaces/IUserService'
 import * as request from 'superagent'
 
 /**
@@ -11,8 +11,8 @@ import * as request from 'superagent'
 @Injectable()
 export class UserServiceGogs implements IUserService {
   private _user!: User
-  private apiUrl: string
-  private apiKey: string
+  private readonly apiUrl: string
+  private readonly apiKey: string
 
   constructor(private config: ConfigService) {
     this.apiUrl = (config as any).gogs.api.url
@@ -82,8 +82,8 @@ export class UserServiceGogs implements IUserService {
   /**
    * Find a user by it's email
    *
-   * @param {string} id
-   * @returns {Promise<User>}
+   * @param {string} _email
+   * @returns {Promise<User | null>}
    */
   async findByEmail(_email: string): Promise<User | null> {
     throw Error('NOT IMPLEMENTED')
@@ -92,7 +92,7 @@ export class UserServiceGogs implements IUserService {
   /**
    * Find a user by it's username
    *
-   * @param {string} id
+   * @param {string} username
    * @returns {Promise<User>}
    */
   async findByUsername(username: string): Promise<User | null> {
@@ -176,6 +176,7 @@ export class UserServiceGogs implements IUserService {
    *
    * @param {string} email
    * @param {string} password
+   * @param {any} additionalInfo
    * @returns {Promise<User>}
    */
   async register(email: string, password: string, additionalInfo: any = {}): Promise<User> {

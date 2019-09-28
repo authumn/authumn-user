@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
 import { ConfigService } from '@nestling/config'
 import * as mustache from 'mustache'
-import { User } from './models'
 import * as Mail from 'nodemailer/lib/mailer'
 
 export interface MailerObject {

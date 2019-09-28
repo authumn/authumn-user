@@ -1,6 +1,6 @@
 import { UserMap, User } from '../models'
 
-export interface IUserService {
+export abstract class IUserService {
   /* This is ugly not sure if needed.
   set user(user: User) {
     this._user = user
@@ -11,7 +11,7 @@ export interface IUserService {
   }
   */
 
-  updatePassword(newPassword: string): Promise<User>
+  abstract updatePassword(newPassword: string): Promise<User>
 
   /**
    * Authenticate user by providing email and password.
@@ -20,40 +20,40 @@ export interface IUserService {
    * @param {string} password
    * @returns {Promise<User>}
    */
-  authenticate(login: string, password: string): Promise<User>
+  abstract authenticate(login: string, password: string): Promise<User>
 
   /**
    * Find a user by it's id
    *
    * @param {string} id
-   * @returns {Promise<User | undefined>}
+   * @returns {Promise<User | null>}
    */
-  findById(id: string): Promise<User | null>
+  abstract findById(id: string): Promise<User | null>
 
   /**
    * Find a user by it's email
    *
-   * @param {string} id
-   * @returns {Promise<User>}
+   * @param {string} email
+   * @returns {Promise<User | null>}
    */
-  findByEmail(email: string): Promise<User | null>
+  abstract findByEmail(email: string): Promise<User | null>
 
   /**
    * Find a user by it's username
    *
-   * @param {string} id
-   * @returns {Promise<User>}
+   * @param {string} username
+   * @returns {Promise<User | null>}
    */
-  findByUsername(username: string): Promise<User | null>
+  abstract findByUsername(username: string): Promise<User | null>
 
   /**
    * List all users
    *
    * @returns {Promise<User[]>}
    */
-  listUsers(): Promise<User[]>
+  abstract listUsers(): Promise<User[]>
 
-  idAndNamelist(): Promise<UserMap[]>
+  abstract idAndNamelist(): Promise<UserMap[]>
 
   /**
    * Update a user.
@@ -61,14 +61,15 @@ export interface IUserService {
    * @param {User} user
    * @returns {Promise<User>}
    */
-  update(user: User): Promise<User>
+  abstract update(user: User): Promise<User>
 
   /**
    * Register a user.
    *
    * @param {string} email
    * @param {string} password
+   * @param {any} additionalInfo
    * @returns {Promise<User>}
    */
-  register(email: string, password: string, additionalInfo?: any): Promise<User>
+  abstract register(email: string, password: string, additionalInfo?: any): Promise<User>
 }

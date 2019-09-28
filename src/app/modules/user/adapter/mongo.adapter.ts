@@ -1,7 +1,7 @@
 import { IUserDbAdapter } from './IUserDbAdapter'
 import { Injectable, Inject } from '@nestjs/common'
 import { User } from '../models'
-import { Cursor, FilterQuery, FindOneOptions, WriteOpResult } from 'mongodb'
+import { Cursor, FilterQuery, WriteOpResult } from 'mongodb'
 import { ConfigService } from '@nestling/config'
 import * as uuid from 'uuid'
 
@@ -32,7 +32,7 @@ export class MongoDbAdapter implements IUserDbAdapter {
 
     const id = uuid.v4()
 
-    const result = await collection
+    await collection
       .insertOne({
         ...user,
         id

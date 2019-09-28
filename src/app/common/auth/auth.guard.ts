@@ -7,7 +7,7 @@ import { ErrorMessage } from '@nestling/errors'
 import * as jwt from 'jsonwebtoken'
 import { ConfigService } from '@nestling/config'
 import { setContext } from '@nestling/context'
-import { UserService } from '../../modules/user/user.service'
+import { UserServiceMongo } from '../../modules/user/services/user.service.mongo'
 
 export type JWTConfig = {
   jwt: {
@@ -21,7 +21,7 @@ export type JWTConfig = {
 export class AuthGuard implements CanActivate {
   constructor (
     private config: ConfigService,
-    private userService: UserService
+    private userService: UserServiceMongo
   ) {}
 
   async canActivate (executionContext: ExecutionContext): Promise<boolean> {

@@ -1,10 +1,10 @@
 import {
-  Injectable, MiddlewareFunction,
+  Injectable,
   NestMiddleware
 } from '@nestjs/common'
 import * as jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
-import { UserService } from '../../modules/user/user.service'
+import { UserServiceMongo } from '../../modules/user/services/user.service.mongo'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
 
@@ -12,7 +12,7 @@ import { ErrorMessage } from '@nestling/errors'
 export class AuthMiddleware implements NestMiddleware {
   constructor(
     private config: ConfigService,
-    private userService: UserService
+    private userService: UserServiceMongo
   ) {}
   // NestJS 5.1 return types are weird so fixed with any
   resolve (): any {
