@@ -68,16 +68,6 @@ export class UserServiceMongo implements IUserService {
   }
 
   /**
-   * Find a user by it's id and email
-   *
-   * @param {any} where
-   * @returns {Promise<User | undefined>}
-   */
-  async findOne(where: any): Promise<User | null> {
-    return this.adapter.findOne(where)
-  }
-
-  /**
    * Find a user by it's id
    *
    * @param {string} id

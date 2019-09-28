@@ -1,15 +1,9 @@
 import { UserMap, User } from '../models'
 
 export abstract class IUserService {
-  /* This is ugly not sure if needed.
-  set user(user: User) {
-    this._user = user
-  }
+  abstract set user(user: User)
 
-  get user (): User {
-    return this._user
-  }
-  */
+  abstract get user (): User
 
   abstract updatePassword(newPassword: string): Promise<User>
 

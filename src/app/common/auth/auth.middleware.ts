@@ -4,15 +4,15 @@ import {
 } from '@nestjs/common'
 import * as jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express'
-import { UserServiceMongo } from '../../modules/user/services/user.service.mongo'
 import { ConfigService } from '@nestling/config'
 import { ErrorMessage } from '@nestling/errors'
+import { IUserService } from '../../modules/user/interfaces/IUserService'
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(
     private config: ConfigService,
-    private userService: UserServiceMongo
+    private userService: IUserService
   ) {}
   // NestJS 5.1 return types are weird so fixed with any
   async use (
@@ -33,12 +33,7 @@ export class AuthMiddleware implements NestMiddleware {
         (this.config as any).jwt.secret
       )
 
-      const identity = {
-        id: decoded.id,
-        email: decoded.email
-      }
-
-      const user = await this.userService.findOne(identity)
+      const user = await this.userService.findById(decoded.sub)
 
       if (!user) throw new ErrorMessage('auth:unauthorized')
 
