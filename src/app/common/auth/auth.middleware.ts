@@ -15,40 +15,38 @@ export class AuthMiddleware implements NestMiddleware {
     private userService: UserServiceMongo
   ) {}
   // NestJS 5.1 return types are weird so fixed with any
-  resolve (): any {
-    return async (
+  async use (
       request: Request,
       response: Response,
       next: NextFunction
-    ): Promise<any> => {
-      const authorization = request.header('authorization')
+    ) {
+    const authorization = request.header('authorization')
 
-      if (
-        authorization &&
-        authorization.split(' ')[0] === 'Bearer'
-      ) {
-        const token = authorization.split(' ')[1]
+    if (
+      authorization &&
+      authorization.split(' ')[0] === 'Bearer'
+    ) {
+      const token = authorization.split(' ')[1]
 
-        const decoded: any = jwt.verify(
-          token,
-          (this.config as any).jwt.secret
-        )
+      const decoded: any = jwt.verify(
+        token,
+        (this.config as any).jwt.secret
+      )
 
-        const identity = {
-          id: decoded.id,
-          email: decoded.email
-        }
-
-        const user = await this.userService.findOne(identity)
-
-        if (!user) throw new ErrorMessage('auth:unauthorized')
-
-        this.userService.user = user
-
-        next()
-      } else {
-        throw new ErrorMessage('auth:unauthorized')
+      const identity = {
+        id: decoded.id,
+        email: decoded.email
       }
+
+      const user = await this.userService.findOne(identity)
+
+      if (!user) throw new ErrorMessage('auth:unauthorized')
+
+      this.userService.user = user
+
+      next()
+    } else {
+      throw new ErrorMessage('auth:unauthorized')
     }
   }
 }
